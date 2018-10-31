@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activity.StartQrCodeActivity">
+
+    <include
+        android:id="@+id/top"
+        layout="@layout/common_titile" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:padding="@dimen/space_5"
+        android:orientation="vertical">
+        <EditText
+            android:id="@+id/et_code"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/space_10"
+            android:hint="请扫码"
+            android:textColorHint="@color/main_color"
+            android:maxLines="2"
+            android:gravity="center"
+            android:background="@null"
+            android:textCursorDrawable="@drawable/edittext_cusor_shape"
+            android:textSize="@dimen/text_14"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/space_10"
+        android:padding="@dimen/space_10"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:visibility="invisible"
+        android:background="@color/white">
+
+        <TextView
+            android:id="@+id/tv_start_code_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/space_3"
+            android:text="起始码号："
+            android:textSize="@dimen/text_14" />
+
+        <TextView
+            android:id="@+id/tv_end_code_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/space_3"
+            android:paddingRight="@dimen/space_3"
+            android:text="结束码号："
+            android:textSize="@dimen/text_14" />
+
+        <TextView
+            android:id="@+id/tv_register_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/space_3"
+            android:text="登记时间："
+            android:textSize="@dimen/text_14" />
+
+        <TextView
+            android:id="@+id/tv_register_product"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/space_3"
+            android:paddingRight="@dimen/space_3"
+            android:text="登记产品："
+            android:textSize="@dimen/text_14" />
+
+        <TextView
+            android:id="@+id/tv_activation_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/space_3"
+            android:text="激活时间："
+            android:textSize="@dimen/text_14" />
+
+        <TextView
+            android:id="@+id/tv_activation_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/space_3"
+            android:paddingRight="@dimen/space_3"
+            android:text="激活状态："
+            android:textSize="@dimen/text_14" />
+
+        <TextView
+            android:id="@+id/tv_section_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/space_3"
+            android:text="号段码量："
+            android:textSize="@dimen/text_14" />
+
+        <TextView
+            android:id="@+id/tv_activation_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/space_3"
+            android:paddingRight="@dimen/space_3"
+            android:text="激活码量："
+            android:textSize="@dimen/text_14" />
+
+        <TextView
+            android:id="@+id/tv_print_factory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/space_3"
+            android:text="打印工厂："
+            android:textSize="@dimen/text_14" />
+
+    </LinearLayout>
+</LinearLayout>

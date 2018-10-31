@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.SelectProductActivity"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/rl_top"
+        layout="@layout/common_titile" />
+
+    <TextView
+        android:id="@+id/tv1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/space_20"
+        android:layout_marginTop="@dimen/space_40"
+        android:text="品牌："
+        android:layout_below="@id/rl_top"
+        android:textColor="@color/gray_46"
+        android:textSize="@dimen/text_14" />
+
+    <com.ty.nanfangscanner.view.MyTextView
+        android:id="@+id/tv_brand"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/space_35"
+        android:layout_marginLeft="@dimen/space_20"
+        android:layout_marginRight="@dimen/space_20"
+        android:layout_marginTop="@dimen/space_10"
+        android:background="@drawable/gray_bg_conner"
+        android:drawablePadding="@dimen/space_5"
+        android:drawableRight="@mipmap/icon_up_down"
+        android:gravity="center_vertical"
+        android:hint="选择品牌"
+        android:layout_below="@+id/tv1"
+        android:paddingLeft="@dimen/space_10"
+        android:paddingRight="@dimen/space_10"
+        android:singleLine="true"
+        android:textColor="@color/gray_33"
+        android:textColorHint="@color/gray_99"
+        android:textSize="@dimen/text_13" />
+
+    <TextView
+        android:id="@+id/tv2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/space_20"
+        android:layout_marginTop="@dimen/space_20"
+        android:text="产品："
+        android:layout_below="@+id/tv_brand"
+        android:textColor="@color/gray_46"
+        android:textSize="@dimen/text_14" />
+
+    <com.ty.nanfangscanner.view.MyTextView
+        android:id="@+id/tv_product"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/space_35"
+        android:layout_marginLeft="@dimen/space_20"
+        android:layout_marginRight="@dimen/space_20"
+        android:layout_marginTop="@dimen/space_10"
+        android:background="@drawable/gray_bg_conner"
+        android:drawablePadding="@dimen/space_5"
+        android:drawableRight="@mipmap/icon_up_down"
+        android:gravity="center_vertical"
+        android:layout_below="@+id/tv2"
+        android:hint="选择产品"
+        android:paddingLeft="@dimen/space_10"
+        android:paddingRight="@dimen/space_10"
+        android:singleLine="true"
+        android:textColor="@color/gray_33"
+        android:textColorHint="@color/gray_99"
+        android:textSize="@dimen/text_13" />
+
+    <LinearLayout
+        android:id="@+id/ll_more"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_alignParentBottom="true"
+        android:paddingBottom="@dimen/space_10"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/btn_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_cancel"
+            />
+
+        <ImageView
+            android:id="@+id/btn_next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_next"
+            android:layout_marginLeft="@dimen/space_50"/>
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/split3"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_above="@+id/ll_more"
+        android:layout_marginBottom="@dimen/space_15"
+        android:background="#77ededed" />
+
+</RelativeLayout>

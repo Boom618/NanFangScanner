@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/space_20"
+    android:padding="@dimen/space_10"
+    android:background="@drawable/shape_bg_radius">
+
+    <TextView
+        android:id="@+id/save_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="保存时间："
+        android:textSize="@dimen/text_16" />
+
+    <TextView
+        android:id="@+id/tv_save_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/save_time"
+        android:singleLine="true"
+        android:ellipsize="middle"
+        android:text="2018-07-08 12:17:12"
+        android:textSize="@dimen/text_16" />
+
+    <TextView
+        android:id="@+id/section_num"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/save_time"
+        android:text="号段数量："
+        android:textSize="@dimen/text_16" />
+
+    <TextView
+        android:id="@+id/tv_section_num"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/save_time"
+        android:layout_toRightOf="@+id/save_time"
+        android:singleLine="true"
+        android:ellipsize="middle"
+        android:text="3"
+        android:textSize="@dimen/text_16" />
+
+    <TextView
+        android:id="@+id/product_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/section_num"
+        android:text="产品名称："
+        android:textSize="@dimen/text_16" />
+
+    <TextView
+        android:id="@+id/tv_product_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/section_num"
+        android:layout_toRightOf="@+id/product_name"
+        android:singleLine="true"
+        android:ellipsize="middle"
+        android:text="南方黑芝麻糊"
+        android:textSize="@dimen/text_16" />
+
+    <ImageView
+        android:id="@+id/iv_del"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:src="@mipmap/ic_del"
+        />
+
+</RelativeLayout>
+

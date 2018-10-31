@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activity.StartQrCodeActivity">
+
+    <include
+        android:id="@+id/top"
+        layout="@layout/common_titile" />
+
+    <TextView
+        android:id="@+id/tv_count"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/space_10"
+        android:background="@color/white"
+        android:gravity="center"
+        android:padding="@dimen/space_10"
+        android:text="0"
+        android:textColor="@color/main_color"
+        android:textSize="@dimen/text_14" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/space_10"
+        android:paddingLeft="@dimen/space_20"
+        android:paddingRight="@dimen/space_20">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/shape_white2black_radius"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/space_5"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="@dimen/space_5">
+
+                <EditText
+                    android:id="@+id/et_code"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:gravity="center_vertical"
+                    android:hint="请开始扫码"
+                    android:textColorHint="@color/main_color"
+                    android:textCursorDrawable="@drawable/edittext_cusor_shape"
+                    android:textSize="@dimen/text_14" />
+
+                <TextView
+                    android:id="@+id/iv_reset"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="@dimen/space_5"
+                    android:src="@mipmap/ic_reset"
+                    android:text="@string/clear"
+                    android:textColor="@color/main_color" />
+            </LinearLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_code"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:paddingLeft="@dimen/space_3"
+                android:paddingRight="@dimen/space_3" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:id="@+id/split3"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#77ededed"
+        android:paddingTop="@dimen/space_10" />
+
+    <LinearLayout
+        android:id="@+id/ll_more"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/space_10"
+        android:paddingTop="@dimen/space_10">
+
+        <ImageView
+            android:id="@+id/iv_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/space_5"
+            android:src="@mipmap/ic_cancel" />
+
+        <ImageView
+            android:id="@+id/iv_submit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/space_50"
+            android:paddingTop="@dimen/space_5"
+            android:src="@mipmap/ic_commit" />
+
+    </LinearLayout>
+
+</LinearLayout>

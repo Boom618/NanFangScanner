@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#08b0fa</color>
+    <color name="colorPrimaryDark">#08b0fa</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="main_color">#08b0fa</color>
+    <color name="minor_color">#0e95ff</color>
+    <color name="gray_cc">#cccccc</color>
+    <color name="gray_46">#464646</color>
+    <color name="eb_od">#0afafafa</color>
+    <color name="default_shadow_color">#88757575</color>
+    <color name="bg_fa">#fbfbfb</color>
+    <color name="eb_cc">#aff7f6f6</color>
+    <color name="eb_af">#83ebebeb</color>
+    <color name="gray_99">#999999</color>
+    <color name="gray_66">#666666</color>
+    <color name="split_line">#ededed</color>
+    <color name="gray_33">#333333</color>
+    <color name="txt_main_color">#424242</color><!--主字体颜色-->
+    <color name="txt_minor_color">#757575</color><!--次要字体颜色-->
+</resources>

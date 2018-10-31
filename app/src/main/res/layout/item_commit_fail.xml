@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_bg_radius"
+        android:padding="@dimen/space_10">
+
+        <TextView
+            android:id="@+id/start_code_url"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="开始码URL："
+            android:textSize="@dimen/text_16" />
+
+        <TextView
+            android:id="@+id/tv_start_code_url"
+            android:layout_width="400dp"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/start_code_url"
+            android:textSize="@dimen/text_16" />
+
+        <TextView
+            android:id="@+id/start_code_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_start_code_url"
+            android:text="开始码序号："
+            android:textSize="@dimen/text_16" />
+
+        <TextView
+            android:id="@+id/tv_start_code_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_start_code_url"
+            android:layout_toRightOf="@+id/start_code_num"
+            android:textSize="@dimen/text_16" />
+
+        <TextView
+            android:id="@+id/end_code_url"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_start_code_num"
+            android:text="结束码URL："
+            android:textSize="@dimen/text_16" />
+
+        <TextView
+            android:id="@+id/tv_end_code_url"
+            android:layout_width="400dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_start_code_num"
+            android:layout_toRightOf="@+id/end_code_url"
+            android:textSize="@dimen/text_16" />
+
+        <TextView
+            android:id="@+id/end_code_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_end_code_url"
+            android:text="结束码序号："
+            android:textSize="@dimen/text_16" />
+
+        <TextView
+            android:id="@+id/tv_end_code_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_end_code_url"
+            android:layout_toRightOf="@+id/end_code_num"
+            android:textSize="@dimen/text_16" />
+
+        <TextView
+            android:id="@+id/product_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_end_code_num"
+            android:text="产            品："
+            android:textSize="@dimen/text_16" />
+
+        <TextView
+            android:id="@+id/tv_product_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_end_code_num"
+            android:layout_toRightOf="@+id/product_name"
+            android:textSize="@dimen/text_16" />
+
+        <TextView
+            android:id="@+id/fail_reason"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_product_name"
+            android:text="原            因："
+            android:textSize="@dimen/text_16" />
+
+        <TextView
+            android:id="@+id/tv_fail_reason"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_product_name"
+            android:layout_toRightOf="@+id/fail_reason"
+            android:textSize="@dimen/text_16" />
+
+    </RelativeLayout>
+</LinearLayout>
+
+

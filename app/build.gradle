@@ -1,0 +1,43 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 27
+    defaultConfig {
+        applicationId "com.ty.nanfangscanner"
+        minSdkVersion 17
+        targetSdkVersion 27
+        versionCode 5
+        versionName "1.4"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.android.support:appcompat-v7:27.1.1'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.2'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    implementation 'com.jakewharton:butterknife:8.5.1'
+    implementation 'com.lai.weavey:dialog:2.0.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
+    implementation 'com.android.support:recyclerview-v7:27.1.1'
+    implementation 'io.reactivex:rxjava:1.0.14'
+    implementation 'io.reactivex:rxandroid:1.0.1'
+    implementation 'com.squareup.retrofit2:retrofit:2.0.0-beta4'
+    implementation 'com.squareup.retrofit2:converter-gson:2.0.0-beta4'
+    implementation 'com.squareup.retrofit2:adapter-rxjava:2.0.0-beta4'
+    implementation 'com.squareup.okhttp3:okhttp:3.3.1'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.3.1'
+    implementation 'com.google.code.gson:gson:2.8.5'
+    compile 'com.lai.weavey:dialog:2.0.1'
+    implementation project(':rxeasyhttp')
+    implementation files('libs/pgyer_sdk_2.8.0.jar')
+}

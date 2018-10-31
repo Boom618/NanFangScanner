@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">南方生产管理终端</string>
+    <string name="common_tip">只为您能操作的更简单</string>
+    <string name="login_text_one">账号</string>
+    <string name="login_text_two">密码</string>
+    <string name="login_text_three">登录</string>
+    <string name="loading">正在加载...</string>
+    <string name="clear">清空</string>
+    <string name="app_version">V 1.2</string>
+</resources>
