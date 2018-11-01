@@ -7,6 +7,9 @@ import android.widget.Toast;
 
 import com.ty.nanfangscanner.App;
 
+/**
+ * @author TY
+ */
 public class UIUtils {
 
     /**

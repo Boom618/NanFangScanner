@@ -1,9 +1,7 @@
 package com.ty.nanfangscanner.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -13,12 +11,15 @@ import com.pgyersdk.javabean.AppBean;
 import com.pgyersdk.update.PgyUpdateManager;
 import com.pgyersdk.update.UpdateManagerListener;
 import com.ty.nanfangscanner.R;
+import com.ty.nanfangscanner.activity.base.BaseActivity;
 import com.ty.nanfangscanner.utils.Utils;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+/**
+ * @author TY
+ */
+public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     @BindView(R.id.ll_register)
     LinearLayout llRegister;
@@ -34,10 +35,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ImageView ivSync;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
+    protected void onBaseCreate(Bundle savedInstanceState) {
+
+
+    }
+
+    @Override
+    protected int setActivityLayout() {
+        return R.layout.activity_main;
+    }
+
+    @Override
+    protected void initView() {
         tvVersion.setText(Utils.getVersion());
         ivSync.setOnClickListener(this);
         llActive.setOnClickListener(this);
@@ -45,6 +54,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         llCheck.setOnClickListener(this);
         llRecord.setOnClickListener(this);
         PgyUpdateManager.register(this);
+    }
+
+    @Override
+    protected void initData() {
         checkUpdate();
     }
 
@@ -52,28 +65,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_synchronization:
-                startActivity(new Intent(MainActivity.this, SynchronizationActivity.class));
+                gotoActivity(SynchronizationActivity.class);
                 break;
 
             case R.id.ll_register:
-                startActivity(new Intent(MainActivity.this, SelectProductActivity.class));
+                gotoActivity(SelectProductActivity.class);
                 break;
 
             case R.id.ll_active:
-                startActivity(new Intent(MainActivity.this, ActiveActivity.class));
+                gotoActivity(ActiveActivity.class);
                 break;
 
             case R.id.ll_check:
-                startActivity(new Intent(MainActivity.this, CheckActivity.class));
+                gotoActivity(CheckActivity.class);
                 break;
 
             case R.id.ll_record:
-                startActivity(new Intent(MainActivity.this, RecordActivity.class));
+                gotoActivity(RecordActivity.class);
+                break;
+            default:
                 break;
         }
     }
 
-    private void checkUpdate(){
+    private void checkUpdate() {
         PgyUpdateManager.register(MainActivity.this, new UpdateManagerListener() {
 
             @Override
@@ -86,9 +101,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         .setNegativeButton("确定", new android.content.DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(android.content.DialogInterface dialogInterface, int i) {
-                                startDownloadTask(
-                                        MainActivity.this,
-                                        appBean.getDownloadURL());
+                                startDownloadTask(MainActivity.this,appBean.getDownloadURL());
                             }
                         }).show();
             }

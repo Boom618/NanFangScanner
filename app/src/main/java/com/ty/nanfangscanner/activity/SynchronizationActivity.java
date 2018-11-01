@@ -42,6 +42,9 @@ import butterknife.ButterKnife;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 
+/**
+ * @author TY
+ */
 public class SynchronizationActivity extends AppCompatActivity implements View.OnClickListener {
 
     @BindView(R.id.iv_back)
@@ -63,7 +66,8 @@ public class SynchronizationActivity extends AppCompatActivity implements View.O
     @BindView(R.id.pb_load)
     ProgressBar pbLoad;
 
-    private HashMap<Integer, String> brandMap = new HashMap<>();//存放品牌信息：k-id,v-name
+    // 存放品牌信息：k-id,v-name
+    private HashMap<Integer, String> brandMap = new HashMap<>();
     private List<ProductBrandInfo> productBrandInfoList = new ArrayList<>();
     private String authorization;
     private ProductListAdapter adapter;
@@ -119,7 +123,7 @@ public class SynchronizationActivity extends AppCompatActivity implements View.O
         if (productBrandInfoList.size() == 0) {
             tvNull.setVisibility(View.VISIBLE);
         }
-        tvCount.setText("共"+productBrandInfoList.size()+"条数据");
+        tvCount.setText("共" + productBrandInfoList.size() + "条数据");
     }
 
     private void getBrandList() {
@@ -139,12 +143,12 @@ public class SynchronizationActivity extends AppCompatActivity implements View.O
             public void onError(ApiException e) {
                 super.onError(e);
                 String message;
-                if (e.getCode()==401){
-                    message="权限拒绝，请联系管理员";
-                }else if (e.getCode()==1009){
-                    message="网络异常";
-                } else{
-                    message=e.getCode()+":"+e.getMessage();
+                if (e.getCode() == 401) {
+                    message = "权限拒绝，请联系管理员";
+                } else if (e.getCode() == 1009) {
+                    message = "网络异常";
+                } else {
+                    message = e.getCode() + ":" + e.getMessage();
                 }
                 UIUtils.showToast(message);
             }
@@ -182,12 +186,12 @@ public class SynchronizationActivity extends AppCompatActivity implements View.O
             public void onError(ApiException e) {
                 super.onError(e);
                 String message;
-                if (e.getCode()==401){
-                    message="权限拒绝，请联系管理员";
-                }else if (e.getCode()==1009){
-                    message="网络异常";
-                } else{
-                    message=e.getCode()+":"+e.getMessage();
+                if (e.getCode() == 401) {
+                    message = "权限拒绝，请联系管理员";
+                } else if (e.getCode() == 1009) {
+                    message = "网络异常";
+                } else {
+                    message = e.getCode() + ":" + e.getMessage();
                 }
                 UIUtils.showToast(message);
             }
@@ -214,11 +218,13 @@ public class SynchronizationActivity extends AppCompatActivity implements View.O
 
             case R.id.ll_more:
                 int timeInterval = TimeUtil.getTimeInterval(TimeUtil.getCurretTime(), tokenUpdateTime);
-                if (timeInterval>2){
+                if (timeInterval > 2) {
                     updateToken();
-                }else {
+                } else {
                     getBrandList();
                 }
+                break;
+            default:
                 break;
         }
     }
@@ -256,11 +262,12 @@ public class SynchronizationActivity extends AppCompatActivity implements View.O
                 if (loginInfo != null) {
                     mSp.edit().putString(ConstantUtil.SP_TOKEN, loginInfo.getAccessToken())
                             .putString(ConstantUtil.SP_TOKEN_TYPE, loginInfo.getTokenType())
-                            .putString(ConstantUtil.SP_TOKEN_UPDATE_TIME, TimeUtil.getCurretTime())//token更新的时间
+                            //token更新的时间
+                            .putString(ConstantUtil.SP_TOKEN_UPDATE_TIME, TimeUtil.getCurretTime())
                             .apply();
                     authorization = loginInfo.getTokenType() + " " + loginInfo.getAccessToken();
                     getBrandList();
-                }else {
+                } else {
                     UIUtils.showToast("Token刷新失败,请保存数据,重新登录提交");
                 }
 

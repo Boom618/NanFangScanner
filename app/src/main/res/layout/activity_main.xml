@@ -30,8 +30,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/space_50"
         android:src="@mipmap/ic_sync"
-        android:text="同步"
-        />
+        android:text="同步" />
 
 
     <LinearLayout
@@ -39,8 +38,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/btn_synchronization"
         android:layout_gravity="center"
-        android:layout_marginBottom="@dimen/space_30"
         android:layout_marginTop="@dimen/space_20"
+        android:layout_marginBottom="@dimen/space_30"
 
         android:orientation="vertical">
 
@@ -181,12 +180,12 @@
         android:id="@+id/tv_version"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="@dimen/space_20"
         android:gravity="center_horizontal"
         android:text="@string/app_version"
         android:textColor="@color/main_color"
-        android:textSize="@dimen/text_12"
-        android:layout_alignParentBottom="true"/>
+        android:textSize="@dimen/text_12" />
 
 </RelativeLayout>

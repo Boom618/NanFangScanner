@@ -29,6 +29,9 @@ import butterknife.ButterKnife;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 
+/**
+ * @author TY
+ */
 public class CheckActivity extends AppCompatActivity implements View.OnClickListener {
 
 
@@ -81,24 +84,26 @@ public class CheckActivity extends AppCompatActivity implements View.OnClickList
         });
         etCode.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                String result = charSequence.toString().replace("\n","");
+                String result = charSequence.toString().replace("\n", "");
                 etCode.getText().clear();
-                if (!TextUtils.isEmpty(result)&&result.length()>5){
+                if (!TextUtils.isEmpty(result) && result.length() > 5) {
                     int timeInterval = TimeUtil.getTimeInterval(TimeUtil.getCurretTime(), tokenUpdateTime);
-                    if (timeInterval>2){
+                    if (timeInterval > 2) {
                         updateToken(result);
-                    }else {
+                    } else {
                         doCheck(result);
                     }
                 }
             }
 
             @Override
-            public void afterTextChanged(Editable editable) {}
+            public void afterTextChanged(Editable editable) {
+            }
         });
 
         mSp = getSharedPreferences(ConstantUtil.USER_SP_NAME, MODE_PRIVATE);
@@ -154,15 +159,15 @@ public class CheckActivity extends AppCompatActivity implements View.OnClickList
                     if (TextUtils.isEmpty(factoryName)) {
                         factoryName = "";
                     }
-                    tvStartCodeNum.setText("起始码号："+enterpriseSeqnumStart);
-                    tvEndCodeNum.setText("结束码号："+enterpriseSeqnumEnd);
-                    tvRegisterTime.setText("登记时间："+registrationTime);
-                    tvRegisterProduct.setText("登记产品："+productName);
-                    tvActivationTime.setText("激活时间："+activationTime);
-                    tvActivationStatus.setText("激活状态："+activationStatus);
-                    tvSectionNum.setText("号段码量："+seqNumCount);
-                    tvActivationNum.setText("激活码量："+activationCount);
-                    tvPrintFactory.setText("打印工厂："+factoryName);
+                    tvStartCodeNum.setText("起始码号：" + enterpriseSeqnumStart);
+                    tvEndCodeNum.setText("结束码号：" + enterpriseSeqnumEnd);
+                    tvRegisterTime.setText("登记时间：" + registrationTime);
+                    tvRegisterProduct.setText("登记产品：" + productName);
+                    tvActivationTime.setText("激活时间：" + activationTime);
+                    tvActivationStatus.setText("激活状态：" + activationStatus);
+                    tvSectionNum.setText("号段码量：" + seqNumCount);
+                    tvActivationNum.setText("激活码量：" + activationCount);
+                    tvPrintFactory.setText("打印工厂：" + factoryName);
                 }
 
             }
@@ -171,12 +176,12 @@ public class CheckActivity extends AppCompatActivity implements View.OnClickList
             public void onError(ApiException e) {
                 super.onError(e);
                 String message;
-                if (e.getCode()==401){
-                    message="权限拒绝，请联系管理员";
-                }else if (e.getCode()==1009){
-                    message="网络异常";
-                } else{
-                    message=e.getCode()+":"+e.getMessage();
+                if (e.getCode() == 401) {
+                    message = "权限拒绝，请联系管理员";
+                } else if (e.getCode() == 1009) {
+                    message = "网络异常";
+                } else {
+                    message = e.getCode() + ":" + e.getMessage();
                 }
                 UIUtils.showToast(message);
             }
@@ -188,6 +193,8 @@ public class CheckActivity extends AppCompatActivity implements View.OnClickList
         switch (v.getId()) {
             case R.id.iv_back:
                 finish();
+                break;
+            default:
                 break;
         }
     }
@@ -205,11 +212,12 @@ public class CheckActivity extends AppCompatActivity implements View.OnClickList
                 if (loginInfo != null) {
                     mSp.edit().putString(ConstantUtil.SP_TOKEN, loginInfo.getAccessToken())
                             .putString(ConstantUtil.SP_TOKEN_TYPE, loginInfo.getTokenType())
-                            .putString(ConstantUtil.SP_TOKEN_UPDATE_TIME, TimeUtil.getCurretTime())//token更新的时间
+                            //token更新的时间
+                            .putString(ConstantUtil.SP_TOKEN_UPDATE_TIME, TimeUtil.getCurretTime())
                             .apply();
                     authorization = loginInfo.getTokenType() + " " + loginInfo.getAccessToken();
                     doCheck(codeUrl);
-                }else {
+                } else {
                     UIUtils.showToast("Token刷新失败,请保存数据,重新登录提交");
                 }
 

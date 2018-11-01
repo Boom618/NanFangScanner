@@ -3,6 +3,9 @@ package com.ty.nanfangscanner.utils;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * @author TY
+ */
 public class TimeUtil {
     public static  String getCurretTime(){
         String currentTime = new SimpleDateFormat("yyyy-MM-dd HH:mm").format(new Date());

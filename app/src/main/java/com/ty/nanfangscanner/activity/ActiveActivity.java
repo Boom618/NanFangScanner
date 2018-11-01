@@ -49,7 +49,10 @@ import butterknife.ButterKnife;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 
-public class ActiveActivity extends AppCompatActivity implements View.OnClickListener{
+/**
+ * @author TY
+ */
+public class ActiveActivity extends AppCompatActivity implements View.OnClickListener {
 
     @BindView(R.id.iv_back)
     ImageView ivBack;
@@ -71,8 +74,8 @@ public class ActiveActivity extends AppCompatActivity implements View.OnClickLis
     private List<String> qrCodeList;
     private QRCodeAdapter adapter;
     private String authorization;
-    private static final int REQUEST_CODE=111;
-    private static final int RESULT_CODE=222;
+    private static final int REQUEST_CODE = 111;
+    private static final int RESULT_CODE = 222;
     private String userName;
     private String password;
     private String tokenUpdateTime;
@@ -96,13 +99,14 @@ public class ActiveActivity extends AppCompatActivity implements View.OnClickLis
         tokenUpdateTime = mSp.getString(ConstantUtil.SP_TOKEN_UPDATE_TIME, "");
 
         String jsonStr = FileUtils.readFile(ConstantUtil.ACTIVATION_CACHE);
-        if (!TextUtils.isEmpty(jsonStr)){
+        if (!TextUtils.isEmpty(jsonStr)) {
             Gson gson = new Gson();
-            List<String> infos= gson.fromJson(jsonStr, new TypeToken<List<String>>() {}.getType());
-            if (infos!=null){
+            List<String> infos = gson.fromJson(jsonStr, new TypeToken<List<String>>() {
+            }.getType());
+            if (infos != null) {
                 qrCodeList.addAll(infos);
                 showCacheDialog(infos);
-                tvCount.setText(infos.size()+"");
+                tvCount.setText(infos.size() + "");
             }
         }
     }
@@ -119,7 +123,7 @@ public class ActiveActivity extends AppCompatActivity implements View.OnClickLis
         rvCode.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST,
                 UIUtils.dip2px(1), UIUtils.getColor(R.color.split_line)));
         rvCode.setLayoutManager(mLayoutManager);
-        qrCodeList=new ArrayList<>();
+        qrCodeList = new ArrayList<>();
         adapter = new QRCodeAdapter(qrCodeList);
         rvCode.setAdapter(adapter);
         etCode.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -137,21 +141,22 @@ public class ActiveActivity extends AppCompatActivity implements View.OnClickLis
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                String result = charSequence.toString().replace("\n","");
+                String result = charSequence.toString().replace("\n", "");
                 etCode.getText().clear();
-                if (!TextUtils.isEmpty(result)){
-                    if (!qrCodeList.contains(result)){
+                if (!TextUtils.isEmpty(result)) {
+                    if (!qrCodeList.contains(result)) {
                         qrCodeList.add(result);
                         adapter.notifyDataSetChanged();
-                        tvCount.setText(qrCodeList.size()+"");
-                    }else {
+                        tvCount.setText(qrCodeList.size() + "");
+                    } else {
                         UIUtils.showToast("该码已扫过");
                     }
                 }
             }
 
             @Override
-            public void afterTextChanged(Editable editable) { }
+            public void afterTextChanged(Editable editable) {
+            }
         });
     }
 
@@ -160,8 +165,10 @@ public class ActiveActivity extends AppCompatActivity implements View.OnClickLis
             @Override
             public void onNext(List<ActivationInfo> registerCheckInfos) {
                 super.onNext(registerCheckInfos);
-                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
-                String commitTime = df.format(new Date());// new Date()为获取当前系统时间
+                // 设置日期格式
+                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                // new Date()为获取当前系统时间
+                String commitTime = df.format(new Date());
                 if (registerCheckInfos != null) {
                     List<ActivationInfo> successList = new ArrayList<>();
                     List<ActivationInfo> failList = new ArrayList<>();
@@ -172,7 +179,8 @@ public class ActiveActivity extends AppCompatActivity implements View.OnClickLis
                             failList.add(info);
                         }
                     }
-                    FileUtils.deleteFoder(new File(ConstantUtil.FILE_DIR+ConstantUtil.ACTIVATION_CACHE+".txt"));//删除缓存文件
+                    //删除缓存文件
+                    FileUtils.deleteFoder(new File(ConstantUtil.FILE_DIR + ConstantUtil.ACTIVATION_CACHE + ".txt"));
                     qrCodeList.clear();
                     adapter.notifyDataSetChanged();
                     tvCount.setText("0");
@@ -184,17 +192,17 @@ public class ActiveActivity extends AppCompatActivity implements View.OnClickLis
             public void onError(ApiException e) {
                 super.onError(e);
                 String message;
-                if (e.getCode()==401){
-                    message="权限拒绝，请联系管理员";
-                }else if (e.getCode()==1009){
-                    message="当前网络不佳，请前往网络较好的场所重新发起提交！";
-                } else{
-                    message=e.getCode()+":"+e.getMessage();
+                if (e.getCode() == 401) {
+                    message = "权限拒绝，请联系管理员";
+                } else if (e.getCode() == 1009) {
+                    message = "当前网络不佳，请前往网络较好的场所重新发起提交！";
+                } else {
+                    message = e.getCode() + ":" + e.getMessage();
                 }
-                if (adapter==null){
+                if (adapter == null) {
                     adapter = new QRCodeAdapter(qrCodeList);
                     rvCode.setAdapter(adapter);
-                }else {
+                } else {
                     adapter.notifyDataSetChanged();
                 }
                 showCommitFailDialog(message);
@@ -206,44 +214,48 @@ public class ActiveActivity extends AppCompatActivity implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.iv_back:
-                if (qrCodeList!=null&&qrCodeList.size() > 0) {
+                if (qrCodeList != null && qrCodeList.size() > 0) {
                     showCancelDialog();
                 } else {
-                    FileUtils.deleteFoder(new File(ConstantUtil.FILE_DIR+ConstantUtil.ACTIVATION_CACHE+".txt"));//删除缓存文件
+                    //删除缓存文件
+                    FileUtils.deleteFoder(new File(ConstantUtil.FILE_DIR + ConstantUtil.ACTIVATION_CACHE + ".txt"));
                     finish();
                 }
                 break;
 
             case R.id.iv_reset:
-                if (qrCodeList!=null&&qrCodeList.size()>0){
+                if (qrCodeList != null && qrCodeList.size() > 0) {
                     showClearConfirmDialog();
                 }
                 break;
 
             case R.id.iv_cancel:
-                if (qrCodeList!=null&&qrCodeList.size() > 0) {
+                if (qrCodeList != null && qrCodeList.size() > 0) {
                     showCancelDialog();
                 } else {
-                    FileUtils.deleteFoder(new File(ConstantUtil.FILE_DIR+ConstantUtil.ACTIVATION_CACHE+".txt"));//删除缓存文件
+                    // 删除缓存文件
+                    FileUtils.deleteFoder(new File(ConstantUtil.FILE_DIR + ConstantUtil.ACTIVATION_CACHE + ".txt"));
                     finish();
                 }
                 break;
 
             case R.id.iv_submit:
                 int timeInterval = TimeUtil.getTimeInterval(TimeUtil.getCurretTime(), tokenUpdateTime);
-                if (timeInterval>2){
+                if (timeInterval > 2) {
                     updateToken();
-                }else {
+                } else {
                     initActivationParam(qrCodeList);
                 }
+                break;
+            default:
                 break;
         }
     }
 
     private void initActivationParam(List<String> list) {
-        if (list==null||list.size()==0){
+        if (list == null || list.size() == 0) {
             UIUtils.showToast("请扫描二维码");
-        }else {
+        } else {
             String jsonStr = Utils.toJson(list, 1);
             RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), jsonStr);
             doActivation(requestBody);
@@ -260,13 +272,13 @@ public class ActiveActivity extends AppCompatActivity implements View.OnClickLis
         ImageView ivExit = view.findViewById(R.id.iv_cancel);
 
         tvCommitTime.setText(commitTime);
-        tvSuccessNum.setText(successList.size()+"");
-        tvFailNum.setText(failList.size()+"");
-        tvFailDetail.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG );
+        tvSuccessNum.setText(successList.size() + "");
+        tvFailNum.setText(failList.size() + "");
+        tvFailDetail.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
         int count = successList.size() + failList.size();
-        tvSubmit.setText(count+"");
+        tvSubmit.setText(count + "");
 
-        if (failList.size()==0){
+        if (failList.size() == 0) {
             tvFailDetail.setVisibility(View.INVISIBLE);
         }
         final AlertDialog dialog = new AlertDialog.Builder(ActiveActivity.this).create();
@@ -284,12 +296,12 @@ public class ActiveActivity extends AppCompatActivity implements View.OnClickLis
         tvFailDetail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (failList.size()==0){
+                if (failList.size() == 0) {
                     UIUtils.showToast("没有失败记录");
-                }else {
-                    Intent intent=new Intent(ActiveActivity.this,ActivationFailActivity.class);
+                } else {
+                    Intent intent = new Intent(ActiveActivity.this, ActivationFailActivity.class);
                     intent.putParcelableArrayListExtra("failList", (ArrayList<? extends Parcelable>) failList);
-                    startActivityForResult(intent,111);
+                    startActivityForResult(intent, 111);
                 }
             }
         });
@@ -309,8 +321,8 @@ public class ActiveActivity extends AppCompatActivity implements View.OnClickLis
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-              //  String jsonStr = Utils.toJson(qrCodeList, 1);
-              //  FileUtils.writeFile(ConstantUtil.ACTIVATION_CACHE,jsonStr);
+                //  String jsonStr = Utils.toJson(qrCodeList, 1);
+                //  FileUtils.writeFile(ConstantUtil.ACTIVATION_CACHE,jsonStr);
             }
         });
     }
@@ -337,10 +349,10 @@ public class ActiveActivity extends AppCompatActivity implements View.OnClickLis
             public void onClick(View v) {
                 dialog.dismiss();
 
-                if (adapter==null){
+                if (adapter == null) {
                     adapter = new QRCodeAdapter(qrCodeList);
                     rvCode.setAdapter(adapter);
-                }else {
+                } else {
                     adapter.notifyDataSetChanged();
                 }
             }
@@ -371,7 +383,7 @@ public class ActiveActivity extends AppCompatActivity implements View.OnClickLis
                     public void clickRightButton(NormalAlertDialog dialog, View view) {
                         dialog.dismiss();
                         String jsonStr = Utils.toJson(qrCodeList, 1);
-                        FileUtils.writeFile(ConstantUtil.ACTIVATION_CACHE,jsonStr);
+                        FileUtils.writeFile(ConstantUtil.ACTIVATION_CACHE, jsonStr);
                         finish();
                     }
                 }).build();
@@ -397,7 +409,7 @@ public class ActiveActivity extends AppCompatActivity implements View.OnClickLis
                         dialog.dismiss();
                         qrCodeList.clear();
                         adapter.notifyDataSetChanged();
-                        tvCount.setText(qrCodeList.size()+"");
+                        tvCount.setText(qrCodeList.size() + "");
                     }
 
                     @Override
@@ -411,13 +423,14 @@ public class ActiveActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if (qrCodeList!=null&&qrCodeList.size() > 0) {
+            if (qrCodeList != null && qrCodeList.size() > 0) {
                 showCancelDialog();
             } else {
-                FileUtils.deleteFoder(new File(ConstantUtil.FILE_DIR+ConstantUtil.ACTIVATION_CACHE+".txt"));//删除缓存文件
+                FileUtils.deleteFoder(new File(ConstantUtil.FILE_DIR + ConstantUtil.ACTIVATION_CACHE + ".txt"));
                 finish();
             }
-            return false; // 事件继续向下传播
+            // 事件继续向下传播
+            return false;
         }
         return super.onKeyDown(keyCode, event);
     }
@@ -425,7 +438,8 @@ public class ActiveActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode==REQUEST_CODE&&resultCode==RESULT_CODE){//退出当前界面
+        // 退出当前界面
+        if (requestCode == REQUEST_CODE && resultCode == RESULT_CODE) {
             finish();
         }
     }
@@ -443,11 +457,12 @@ public class ActiveActivity extends AppCompatActivity implements View.OnClickLis
                 if (loginInfo != null) {
                     mSp.edit().putString(ConstantUtil.SP_TOKEN, loginInfo.getAccessToken())
                             .putString(ConstantUtil.SP_TOKEN_TYPE, loginInfo.getTokenType())
-                            .putString(ConstantUtil.SP_TOKEN_UPDATE_TIME, TimeUtil.getCurretTime())//token更新的时间
+                            //token更新的时间
+                            .putString(ConstantUtil.SP_TOKEN_UPDATE_TIME, TimeUtil.getCurretTime())
                             .apply();
                     authorization = loginInfo.getTokenType() + " " + loginInfo.getAccessToken();
                     initActivationParam(qrCodeList);
-                }else {
+                } else {
                     UIUtils.showToast("Token刷新失败,请保存数据,重新登录提交");
                 }
 

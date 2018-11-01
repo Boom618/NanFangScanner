@@ -51,6 +51,9 @@ import butterknife.ButterKnife;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 
+/**
+ * @author TY
+ */
 public class EndQrCodeActivity extends AppCompatActivity implements View.OnClickListener {
 
     @BindView(R.id.iv_back)
@@ -99,16 +102,17 @@ public class EndQrCodeActivity extends AppCompatActivity implements View.OnClick
     private String tokenUpdateTime;
 
     @SuppressLint("HandlerLeak")
-    private Handler mHandler=new Handler(){
+    private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            switch (msg.what){
+            switch (msg.what) {
                 case CHECK:
                     doRegisterCheck(doCheck());
                     break;
-
                 case REGISTER:
                     doRegister(doCheck());
+                    break;
+                default:
                     break;
             }
         }
@@ -122,12 +126,19 @@ public class EndQrCodeActivity extends AppCompatActivity implements View.OnClick
     }
 
     private void initData() {
-        Intent intent = getIntent();
-        mSelectedBrand = intent.getStringExtra("brand");
-        mSelectedProduct = intent.getStringExtra("product");
-        mSelectedBrandId = intent.getIntExtra("brandId", -1);
-        mSelectedProductId = intent.getIntExtra("productId", -1);
-        endCodeList = intent.getStringArrayListExtra("endCodeList");
+//        Intent intent = getIntent();
+//        mSelectedBrand = intent.getStringExtra("brand");
+//        mSelectedProduct = intent.getStringExtra("product");
+//        mSelectedBrandId = intent.getIntExtra("brandId", -1);
+//        mSelectedProductId = intent.getIntExtra("productId", -1);
+//        endCodeList = intent.getStringArrayListExtra("endCodeList");
+        Bundle bundle = getIntent().getExtras();
+        mSelectedBrand = bundle.getString("brand");
+        mSelectedProduct = bundle.getString("product");
+        mSelectedBrandId = bundle.getInt("brandId");
+        mSelectedProductId = bundle.getInt("productId");
+        endCodeList = bundle.getStringArrayList("endCodeList");
+
         mSp = getSharedPreferences(ConstantUtil.USER_SP_NAME, MODE_PRIVATE);
         String mTokenStr = mSp.getString(ConstantUtil.SP_TOKEN, "");
         String mTokenType = mSp.getString(ConstantUtil.SP_TOKEN_TYPE, "");
@@ -166,7 +177,8 @@ public class EndQrCodeActivity extends AppCompatActivity implements View.OnClick
         });
         etCode.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -188,7 +200,8 @@ public class EndQrCodeActivity extends AppCompatActivity implements View.OnClick
             }
 
             @Override
-            public void afterTextChanged(Editable editable) {}
+            public void afterTextChanged(Editable editable) {
+            }
         });
     }
 
@@ -302,9 +315,9 @@ public class EndQrCodeActivity extends AppCompatActivity implements View.OnClick
             case R.id.iv_check:
                 if (endCodeList != null && endCodeList.size() == startCodeList.size()) {
                     int timeInterval = TimeUtil.getTimeInterval(TimeUtil.getCurretTime(), tokenUpdateTime);
-                    if (timeInterval>2){
+                    if (timeInterval > 2) {
                         updateToken(CHECK);
-                    }else {
+                    } else {
                         doRegisterCheck(doCheck());
                     }
                 } else {
@@ -315,9 +328,9 @@ public class EndQrCodeActivity extends AppCompatActivity implements View.OnClick
             case R.id.iv_commit:
                 if (endCodeList != null && endCodeList.size() == startCodeList.size()) {
                     int timeInterval = TimeUtil.getTimeInterval(TimeUtil.getCurretTime(), tokenUpdateTime);
-                    if (timeInterval>2){
+                    if (timeInterval > 2) {
                         updateToken(REGISTER);
-                    }else {
+                    } else {
                         doRegister(doCheck());
                     }
                 } else {
@@ -332,6 +345,8 @@ public class EndQrCodeActivity extends AppCompatActivity implements View.OnClick
                     UIUtils.showToast("起始码段和结束码段数量不一致");
                 }
                 break;
+            default:
+                break;
 
         }
     }
@@ -345,8 +360,10 @@ public class EndQrCodeActivity extends AppCompatActivity implements View.OnClick
         sectionNumber.setStartCodeList(startCodeList);
         sectionNumber.setEndCodeList(endCodeList);
         sectionNumber.setCount(startCodeList.size());
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
-        String saveTime = df.format(new Date());// new Date()为获取当前系统时间
+        //设置日期格式 "yyyy-MM-dd HH:mm:ss"
+        SimpleDateFormat df = new SimpleDateFormat(Utils.DATE_SIMPLE_H_M_S);
+        // new Date()为获取当前系统时间
+        String saveTime = df.format(new Date());
         sectionNumber.setSaveTime(saveTime);
 
         Intent intent = new Intent(EndQrCodeActivity.this, RegisterActivity.class);
@@ -509,7 +526,8 @@ public class EndQrCodeActivity extends AppCompatActivity implements View.OnClick
             } else {
                 finish();
             }
-            return false; // 事件继续向下传播
+            // 事件继续向下传播
+            return false;
         }
         return super.onKeyDown(keyCode, event);
     }
@@ -517,7 +535,8 @@ public class EndQrCodeActivity extends AppCompatActivity implements View.OnClick
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE && resultCode == RESULT_CODE) {//退出当前界面
+        // 退出当前界面
+        if (requestCode == REQUEST_CODE && resultCode == RESULT_CODE) {
             finish();
         }
     }
@@ -535,16 +554,17 @@ public class EndQrCodeActivity extends AppCompatActivity implements View.OnClick
                 if (loginInfo != null) {
                     mSp.edit().putString(ConstantUtil.SP_TOKEN, loginInfo.getAccessToken())
                             .putString(ConstantUtil.SP_TOKEN_TYPE, loginInfo.getTokenType())
-                            .putString(ConstantUtil.SP_TOKEN_UPDATE_TIME, TimeUtil.getCurretTime())//token更新的时间
+                            //token更新的时间
+                            .putString(ConstantUtil.SP_TOKEN_UPDATE_TIME, TimeUtil.getCurretTime())
                             .apply();
                     authorization = loginInfo.getTokenType() + " " + loginInfo.getAccessToken();
 
                     //发送消息提示token刷新完成
                     Message message = Message.obtain();
-                    message.what=code;
+                    message.what = code;
                     mHandler.sendMessage(message);
 
-                }else {
+                } else {
                     UIUtils.showToast("Token刷新失败,请保存数据,重新登录提交");
                 }
 

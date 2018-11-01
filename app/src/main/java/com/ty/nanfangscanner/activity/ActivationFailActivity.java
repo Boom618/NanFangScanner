@@ -19,6 +19,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+/**
+ * @author TY
+ */
 public class ActivationFailActivity extends AppCompatActivity implements View.OnClickListener {
 
     @BindView(R.id.iv_back)
@@ -31,7 +34,7 @@ public class ActivationFailActivity extends AppCompatActivity implements View.On
     ImageView ivPre;
     @BindView(R.id.iv_cancel)
     ImageView ivCancel;
-    private static final int RESULT_CODE=222;
+    private static final int RESULT_CODE = 222;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +70,8 @@ public class ActivationFailActivity extends AppCompatActivity implements View.On
             case R.id.iv_cancel:
                 setResult(RESULT_CODE);
                 finish();
+                break;
+            default:
                 break;
         }
     }

@@ -1,7 +1,6 @@
 package com.ty.nanfangscanner.constant;
 
 /**
- *
  * @author Administrator
  * @date 2017/7/26
  */
