@@ -40,7 +40,11 @@ import butterknife.ButterKnife;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 
-public class ActicationRecordActivity extends AppCompatActivity implements View.OnClickListener {
+
+/**
+ * @author TY
+ */
+public class ActivationRecordActivity extends AppCompatActivity implements View.OnClickListener {
 
     @BindView(R.id.iv_back)
     ImageView ivBack;
@@ -112,12 +116,12 @@ public class ActicationRecordActivity extends AppCompatActivity implements View.
             public void onError(ApiException e) {
                 super.onError(e);
                 String message;
-                if (e.getCode()==401){
-                    message="权限拒绝，请联系管理员";
-                }else if (e.getCode()==1009){
-                    message="网络异常";
-                } else{
-                    message=e.getCode()+":"+e.getMessage();
+                if (e.getCode() == 401) {
+                    message = "权限拒绝，请联系管理员";
+                } else if (e.getCode() == 1009) {
+                    message = "网络异常";
+                } else {
+                    message = e.getCode() + ":" + e.getMessage();
                 }
                 UIUtils.showToast(message);
             }
@@ -145,11 +149,13 @@ public class ActicationRecordActivity extends AppCompatActivity implements View.
 
             case R.id.iv_query:
                 int timeInterval = TimeUtil.getTimeInterval(TimeUtil.getCurretTime(), tokenUpdateTime);
-                if (timeInterval>2){
+                if (timeInterval > 2) {
                     updateToken();
-                }else {
+                } else {
                     initParam();
                 }
+                break;
+            default:
                 break;
         }
     }
@@ -160,7 +166,7 @@ public class ActicationRecordActivity extends AppCompatActivity implements View.
         if (!TextUtils.isEmpty(startTime) && !TextUtils.isEmpty(endTime)) {
             startTime = getTime(startTime);
             endTime = getTime(endTime);
-        }else {
+        } else {
             startTime = "";
             endTime = "";
         }
@@ -173,10 +179,11 @@ public class ActicationRecordActivity extends AppCompatActivity implements View.
     }
 
     private void showTimeDialog(final MyTextView tvDate) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.CHINA);
+        SimpleDateFormat sdf = new SimpleDateFormat(Utils.DATE_SIMPLE_H_M, Locale.CHINA);
         String now = sdf.format(new Date());
         Calendar calendar = Calendar.getInstance();
-        final int seconds = calendar.get(Calendar.SECOND);    // 秒
+        // 秒
+        final int seconds = calendar.get(Calendar.SECOND);
         CustomDatePicker datePicker = new CustomDatePicker(this, new CustomDatePicker.ResultHandler() {
             @Override
             public void handle(String time) { // 回调接口，获得选中的时间
@@ -187,16 +194,19 @@ public class ActicationRecordActivity extends AppCompatActivity implements View.
                     s = seconds + "";
                 }
                 tvDate.setText(time + ":" + s);
+                // 初始化日期格式请用：yyyy-MM-dd HH:mm，否则不能正常运行
             }
-        }, "2010-01-01 00:00", "2999-01-01 00:00"); // 初始化日期格式请用：yyyy-MM-dd HH:mm，否则不能正常运行
-        datePicker.showSpecificTime(true); // 显示时和分
-        datePicker.setIsLoop(false); // 允许循环滚动
+        }, Utils.DATE_START_TIME, Utils.DATE_END_TIME);
+        // 显示时和分
+        datePicker.showSpecificTime(true);
+        // 允许循环滚动
+        datePicker.setIsLoop(false);
         datePicker.show(now);
     }
 
     private String getTime(String time) {
         String result = "";
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat sdf = new SimpleDateFormat(Utils.DATE_SIMPLE_H_M_S,Locale.CHINA);
         Date dt1;
         try {
             dt1 = sdf.parse(time);
@@ -220,11 +230,12 @@ public class ActicationRecordActivity extends AppCompatActivity implements View.
                 if (loginInfo != null) {
                     mSp.edit().putString(ConstantUtil.SP_TOKEN, loginInfo.getAccessToken())
                             .putString(ConstantUtil.SP_TOKEN_TYPE, loginInfo.getTokenType())
-                            .putString(ConstantUtil.SP_TOKEN_UPDATE_TIME, TimeUtil.getCurretTime())//token更新的时间
+                            //token更新的时间
+                            .putString(ConstantUtil.SP_TOKEN_UPDATE_TIME, TimeUtil.getCurretTime())
                             .apply();
                     authorization = loginInfo.getTokenType() + " " + loginInfo.getAccessToken();
                     initParam();
-                }else {
+                } else {
                     UIUtils.showToast("Token刷新失败,请保存数据,重新登录提交");
                 }
 

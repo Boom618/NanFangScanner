@@ -12,6 +12,7 @@ import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.ty.nanfangscanner.R;
+import com.ty.nanfangscanner.utils.Utils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -57,19 +58,19 @@ public class CustomDatePicker {
     private int startYear, startMonth, startDay, startHour, startMinute, endYear, endMonth, endDay, endHour, endMinute;
     private boolean spanYear, spanMon, spanDay, spanHour, spanMin;
     private Calendar selectedCalender, startCalendar, endCalendar;
-    private TextView tv_cancle, tv_select ;
+    private TextView tv_cancle, tv_select;
 
-   // private TextView hour_text,minute_text;
+    // private TextView hour_text,minute_text;
 
     public CustomDatePicker(Context context, ResultHandler resultHandler, String startDate, String endDate) {
-        if (isValidDate(startDate, "yyyy-MM-dd HH:mm") && isValidDate(endDate, "yyyy-MM-dd HH:mm")) {
+        if (isValidDate(startDate, Utils.DATE_SIMPLE_H_M) && isValidDate(endDate, Utils.DATE_SIMPLE_H_M)) {
             canAccess = true;
             this.context = context;
             this.handler = resultHandler;
             selectedCalender = Calendar.getInstance();
             startCalendar = Calendar.getInstance();
             endCalendar = Calendar.getInstance();
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.CHINA);
+            SimpleDateFormat sdf = new SimpleDateFormat(Utils.DATE_SIMPLE_H_M, Locale.CHINA);
             try {
                 startCalendar.setTime(sdf.parse(startDate));
                 endCalendar.setTime(sdf.parse(endDate));
@@ -99,15 +100,15 @@ public class CustomDatePicker {
     }
 
     private void initView() {
-        year_pv = (DatePickerView) datePickerDialog.findViewById(R.id.year_pv);
-        month_pv = (DatePickerView) datePickerDialog.findViewById(R.id.month_pv);
-        day_pv = (DatePickerView) datePickerDialog.findViewById(R.id.day_pv);
-        hour_pv = (DatePickerView) datePickerDialog.findViewById(R.id.hour_pv);
-        minute_pv = (DatePickerView) datePickerDialog.findViewById(R.id.minute_pv);
-        tv_cancle = (TextView) datePickerDialog.findViewById(R.id.tv_cancle);
-        tv_select = (TextView) datePickerDialog.findViewById(R.id.tv_select);
-       // hour_text = (TextView) datePickerDialog.findViewById(R.id.hour_text);
-      //  minute_text = (TextView) datePickerDialog.findViewById(R.id.minute_text);
+        year_pv = datePickerDialog.findViewById(R.id.year_pv);
+        month_pv = datePickerDialog.findViewById(R.id.month_pv);
+        day_pv = datePickerDialog.findViewById(R.id.day_pv);
+        hour_pv = datePickerDialog.findViewById(R.id.hour_pv);
+        minute_pv = datePickerDialog.findViewById(R.id.minute_pv);
+        tv_cancle = datePickerDialog.findViewById(R.id.tv_cancle);
+        tv_select = datePickerDialog.findViewById(R.id.tv_select);
+        // hour_text = (TextView) datePickerDialog.findViewById(R.id.hour_text);
+        //  minute_text = (TextView) datePickerDialog.findViewById(R.id.minute_text);
 
         tv_cancle.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -119,7 +120,7 @@ public class CustomDatePicker {
         tv_select.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.CHINA);
+                SimpleDateFormat sdf = new SimpleDateFormat(Utils.DATE_SIMPLE_H_M, Locale.CHINA);
                 handler.handle(sdf.format(selectedCalender.getTime()));
                 datePickerDialog.dismiss();
             }
@@ -312,7 +313,7 @@ public class CustomDatePicker {
             @Override
             public void onSelect(String text) {
                 selectedCalender.set(Calendar.DAY_OF_MONTH, Integer.parseInt(text));
-             //   hourChange();
+                //   hourChange();
             }
         });
 
@@ -320,7 +321,7 @@ public class CustomDatePicker {
             @Override
             public void onSelect(String text) {
                 selectedCalender.set(Calendar.HOUR_OF_DAY, Integer.parseInt(text));
-            //    minuteChange();
+                //    minuteChange();
             }
         });
 
@@ -501,7 +502,7 @@ public class CustomDatePicker {
         }
     }
 
-    public void show(){
+    public void show() {
         initParameter();
         initTimer();
         addListener();
@@ -517,15 +518,15 @@ public class CustomDatePicker {
             if (show) {
                 disScrollUnit();
                 hour_pv.setVisibility(View.VISIBLE);
-             //   hour_text.setVisibility(View.VISIBLE);
+                //   hour_text.setVisibility(View.VISIBLE);
                 minute_pv.setVisibility(View.VISIBLE);
-             //   minute_text.setVisibility(View.VISIBLE);
+                //   minute_text.setVisibility(View.VISIBLE);
             } else {
                 disScrollUnit(SCROLL_TYPE.HOUR, SCROLL_TYPE.MINUTE);
                 hour_pv.setVisibility(View.GONE);
-              //  hour_text.setVisibility(View.GONE);
+                //  hour_text.setVisibility(View.GONE);
                 minute_pv.setVisibility(View.GONE);
-              //  minute_text.setVisibility(View.GONE);
+                //  minute_text.setVisibility(View.GONE);
             }
         }
     }

@@ -24,26 +24,33 @@ import java.util.Map;
 import java.util.TimeZone;
 
 /**
- * Created by Administrator on 2017/8/1.
+ * @author Administrator
+ * @date 2017/8/1
  */
 
 public class Utils {
 
+    public static final String DATE_SIMPLE_H_M = "yyyy-MM-dd HH:mm";
+    public static final String DATE_SIMPLE_H_M_S = "yyyy-MM-dd HH:mm:ss";
+    public static final String DATE_START_TIME = "2010-01-01 00:00";
+    public static final String DATE_END_TIME = "2999-01-01 00:00";
+
     /**
      * 获取版本号
+     *
      * @return
      */
-    public static String getVersion(){
-        String versionName="";
+    public static String getVersion() {
+        String versionName = "";
         PackageManager packageManager = UIUtils.getContext().getPackageManager();
         PackageInfo packageInfo = null;
         try {
             packageInfo = packageManager.getPackageInfo(UIUtils.getContext().getPackageName(), 0);
-            versionName=packageInfo.versionName;
+            versionName = packageInfo.versionName;
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
-        return "v "+versionName;
+        return "v " + versionName;
     }
 
     /**
@@ -126,17 +133,19 @@ public class Utils {
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
             md.update(plainText.getBytes());
-            byte b[] = md.digest();
+            byte[] b = md.digest();
 
             int i;
 
             StringBuffer buf = new StringBuffer("");
-            for (int offset = 0; offset < b.length; offset++) {
-                i = b[offset];
-                if (i < 0)
+            for (byte aB : b) {
+                i = aB;
+                if (i < 0) {
                     i += 256;
-                if (i < 16)
+                }
+                if (i < 16) {
                     buf.append("0");
+                }
                 buf.append(Integer.toHexString(i));
             }
             //32位加密

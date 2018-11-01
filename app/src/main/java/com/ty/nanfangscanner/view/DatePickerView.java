@@ -279,6 +279,8 @@ public class DatePickerView extends View {
             case MotionEvent.ACTION_UP:
                 doUp();
                 break;
+            default:
+                break;
         }
         return true;
     }

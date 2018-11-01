@@ -8,6 +8,7 @@ import com.zhouyou.http.exception.ApiException;
  * description:
  * author: XingZheng
  * date: 2016/11/22.
+ * @author TY
  */
 public abstract class ProgressSubscriber<T> extends BaseSubscriber<T> implements ProgressCancelListener {
 
@@ -38,7 +39,7 @@ public abstract class ProgressSubscriber<T> extends BaseSubscriber<T> implements
     }
 
     @Override
-    public void onCompleted() {
+    public void onComplete() {
         if (isShowDialog)
             dismissProgressDialog();
     }
@@ -46,9 +47,9 @@ public abstract class ProgressSubscriber<T> extends BaseSubscriber<T> implements
     @Override
     public void onCancelProgress() {
         //当已经订阅时，取消提示框就取消订阅
-        if (!this.isUnsubscribed()) {
-            this.unsubscribe();
-        }
+//        if (!this.isUnsubscribed()) {
+//            this.unsubscribe();
+//        }
     }
 
     private void showProgressDialog() {

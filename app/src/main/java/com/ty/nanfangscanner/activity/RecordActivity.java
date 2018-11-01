@@ -13,7 +13,10 @@ import com.ty.nanfangscanner.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class RecordActivity extends AppCompatActivity implements View.OnClickListener{
+/**
+ * @author TY
+ */
+public class RecordActivity extends AppCompatActivity implements View.OnClickListener {
 
     @BindView(R.id.iv_back)
     ImageView ivBack;
@@ -40,7 +43,7 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.iv_back:
                 finish();
                 break;
@@ -50,11 +53,13 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
                 break;
 
             case R.id.ll_active:
-                startActivity(new Intent(RecordActivity.this,ActicationRecordActivity.class));
+                startActivity(new Intent(RecordActivity.this, ActivationRecordActivity.class));
                 break;
 
             case R.id.ll_register:
-                startActivity(new Intent(RecordActivity.this,RegisterRecordActivity.class));
+                startActivity(new Intent(RecordActivity.this, RegisterRecordActivity.class));
+                break;
+            default:
                 break;
         }
     }

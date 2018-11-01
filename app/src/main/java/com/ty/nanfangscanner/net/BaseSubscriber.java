@@ -23,7 +23,7 @@ import com.zhouyou.http.utils.HttpLog;
 
 import java.lang.ref.WeakReference;
 
-import rx.Subscriber;
+import io.reactivex.observers.DisposableObserver;
 
 import static com.zhouyou.http.utils.Utils.isNetworkAvailable;
 
@@ -35,16 +35,18 @@ import static com.zhouyou.http.utils.Utils.isNetworkAvailable;
  * 作者： zhouyou<br>
  * 日期： 2016/12/20 10:35<br>
  * 版本： v2.0<br>
+ * @author TY
  */
-public abstract class BaseSubscriber<T> extends Subscriber<T> {
+public abstract class BaseSubscriber<T> extends DisposableObserver<T> {
     public WeakReference<Context> contextWeakReference;
 
     public BaseSubscriber() {
     }
 
     public BaseSubscriber(Context context) {
-        if (context != null)
+        if (context != null) {
             contextWeakReference = new WeakReference<Context>(context);
+        }
     }
 
 
@@ -66,12 +68,12 @@ public abstract class BaseSubscriber<T> extends Subscriber<T> {
         HttpLog.e("-->http is start");
         if (contextWeakReference != null && !isNetworkAvailable(contextWeakReference.get())) {
             //Toast.makeText(context, "无网络，读取缓存数据", Toast.LENGTH_SHORT).show();
-            onCompleted();
+            onComplete();
         }
     }
 
     @Override
-    public void onCompleted() {
+    public void onComplete() {
         HttpLog.e("-->http is Complete");
     }
 

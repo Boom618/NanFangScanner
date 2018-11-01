@@ -40,7 +40,7 @@ public class FileUtils {
      */
     public static void writeFile(String fileName, String fileContent) {
         try {
-            File f = new File(ConstantUtil.FILE_DIR+fileName+".txt");
+            File f = new File(ConstantUtil.FILE_DIR + fileName + ".txt");
             if (!f.exists()) {
                 f.createNewFile();
             }
@@ -49,10 +49,10 @@ public class FileUtils {
             BufferedWriter writer = new BufferedWriter(write);
             writer.write(fileContent);
             writer.close();
-            Log.e("TAG3333333","缓存成功");
+            Log.e("TAG3333333", "缓存成功");
         } catch (Exception e) {
             e.printStackTrace();
-            Log.e("TAG222222",e.getMessage());
+            Log.e("TAG222222", e.getMessage());
         }
     }
 
@@ -60,9 +60,9 @@ public class FileUtils {
      * 从本地读取json
      */
     public static String readFile(String fileName) {
-        StringBuffer buffer=new StringBuffer();
+        StringBuffer buffer = new StringBuffer();
         try {
-            File f = new File(ConstantUtil.FILE_DIR+fileName+".txt");
+            File f = new File(ConstantUtil.FILE_DIR + fileName + ".txt");
             if (f.isFile() && f.exists()) {
                 InputStreamReader read = new InputStreamReader(
                         new FileInputStream(f), "utf-8");
@@ -98,7 +98,7 @@ public class FileUtils {
      * 原始File -> 原始Uri，供拍照时使用 cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, mImageUri)
      *
      * @param context 上下文
-     * @param file 原始文件 /storage/sdcard0/Pictures/Origin_1491973368473.jpg
+     * @param file    原始文件 /storage/sdcard0/Pictures/Origin_1491973368473.jpg
      * @return 原始Uri /storage/sdcard0/Pictures/Origin_1491973368473.jpg
      */
     public static Uri getOriginalUriFromFile(Context context, File file) {
@@ -119,8 +119,8 @@ public class FileUtils {
      * @return 封装Uri  /external/images/media/24
      */
     public static Uri getContentUriFromFile(Context context, File imageFile) {
-        if (imageFile==null){
-            Log.e("Tag","aaaaaaaaaaaa");
+        if (imageFile == null) {
+            Log.e("Tag", "aaaaaaaaaaaa");
         }
         String filePath = imageFile.getAbsolutePath();
 
@@ -201,31 +201,30 @@ public class FileUtils {
     }
 
     /**
-     *
      * @param fromPath 被复制的文件路径
-     * @param toPath 复制的目录文件路径
-     * @param rewrite 是否重新创建文件
+     * @param toPath   复制的目录文件路径
+     * @param rewrite  是否重新创建文件
      *
-     * <p>文件的复制操作方法
+     *                 <p>文件的复制操作方法
      */
-    public static void copyfile(String fromPath, String toPath, Boolean rewrite ){
+    public static void copyfile(String fromPath, String toPath, Boolean rewrite) {
 
         File fromFile = new File(fromPath);
         File toFile = new File(toPath);
 
-        if(!fromFile.exists()){
+        if (!fromFile.exists()) {
             return;
         }
-        if(!fromFile.isFile()){
+        if (!fromFile.isFile()) {
             return;
         }
-        if(!fromFile.canRead()){
+        if (!fromFile.canRead()) {
             return;
         }
-        if(!toFile.getParentFile().exists()){
+        if (!toFile.getParentFile().exists()) {
             toFile.getParentFile().mkdirs();
         }
-        if(toFile.exists() && rewrite){
+        if (toFile.exists() && rewrite) {
             toFile.delete();
         }
 
@@ -235,8 +234,8 @@ public class FileUtils {
 
             byte[] bt = new byte[1024];
             int c;
-            while((c=fosfrom.read(bt)) > 0){
-                fosto.write(bt,0,c);
+            while ((c = fosfrom.read(bt)) > 0) {
+                fosto.write(bt, 0, c);
             }
             //关闭输入、输出流
             fosfrom.close();
@@ -253,14 +252,22 @@ public class FileUtils {
     }
 
     public static boolean deleteFoder(File file) {
-        if (file.exists()) { // 判断文件是否存在
-            if (file.isFile()) { // 判断是否是文件
-                file.delete(); // delete()方法 你应该知道 是删除的意思;
-            } else if (file.isDirectory()) { // 否则如果它是一个目录
-                File files[] = file.listFiles(); // 声明目录下所有的文件 files[];
+        // 判断文件是否存在
+        if (file.exists()) {
+            // 判断是否是文件
+            if (file.isFile()) {
+                // delete()方法 你应该知道 是删除的意思;
+                file.delete();
+                // 否则如果它是一个目录
+            } else if (file.isDirectory()) {
+                // 声明目录下所有的文件 files[];
+//                File files[] = file.listFiles();
+                File[] files = file.listFiles();
                 if (files != null) {
-                    for (int i = 0; i < files.length; i++) { // 遍历目录下所有的文件
-                        deleteFoder(files[i]); // 把每个文件 用这个方法进行迭代
+                    // 遍历目录下所有的文件
+                    for (File f : files) {
+                        // 把每个文件 用这个方法进行迭代
+                        deleteFoder(f);
                     }
                 }
             }

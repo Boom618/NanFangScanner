@@ -69,7 +69,7 @@
             android:screenOrientation="portrait"/>
         <activity android:name=".activity.RegisterRecordActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name=".activity.ActicationRecordActivity"
+        <activity android:name=".activity.ActivationRecordActivity"
             android:screenOrientation="portrait"/>
 
         <meta-data

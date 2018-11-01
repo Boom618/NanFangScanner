@@ -2,12 +2,12 @@ apply plugin: 'com.android.library'
 //apply plugin: 'me.tatarka.retrolambda'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion '27.0.3'
+    compileSdkVersion 27
+    buildToolsVersion '28.0.3'
 
     defaultConfig {
         minSdkVersion 15
-        targetSdkVersion 23
+        targetSdkVersion 27
         versionCode 4
         versionName "1.1.2"
 
@@ -20,29 +20,35 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-   /* compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_7
-        targetCompatibility JavaVersion.VERSION_1_7
-    }*/
+    /* compileOptions {
+         sourceCompatibility JavaVersion.VERSION_1_7
+         targetCompatibility JavaVersion.VERSION_1_7
+     }*/
     lintOptions {
         abortOnError false
     }
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     //compile 'com.android.support:appcompat-v7:23.0.1'
-    testCompile 'junit:junit:4.12'
-    //第三方依赖库
-    compile 'com.squareup.okhttp3:logging-interceptor:3.1.2'
-    compile 'io.reactivex:rxandroid:1.2.1'
-    compile 'com.squareup.retrofit2:adapter-rxjava:2.0.2'
-    compile 'com.squareup.retrofit2:retrofit:2.1.0'
-    compile 'com.squareup.retrofit2:converter-gson:2.0.0-beta3'
-    compile 'com.google.code.gson:gson:2.6.2'
-    compile 'com.squareup.okhttp3:okhttp:3.4.1'
-    compile 'com.jakewharton:disklrucache:2.0.2'
+    testImplementation 'junit:junit:4.12'
+
+    // 网络请求库
+    implementation 'com.squareup.retrofit2:retrofit:2.4.0'
+    implementation 'com.squareup.okhttp3:okhttp:3.11.0'
+    // Gson 解析
+    implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
+    implementation 'com.google.code.gson:gson:2.8.5'
+    // 日志拦截器
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.11.0'
+    // RxJava 相关依赖
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.0'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.4.0'
+
+    implementation 'com.jakewharton:disklrucache:2.0.2'
 }

@@ -16,6 +16,7 @@ import com.ty.nanfangscanner.R;
 
 /**
  * 加载提醒对话框
+ * @author TY
  */
 public class CustomDialog extends ProgressDialog {
     public CustomDialog(Context context) {

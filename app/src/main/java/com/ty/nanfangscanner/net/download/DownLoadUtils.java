@@ -55,7 +55,7 @@ public class DownLoadUtils {
         DownloadManager.Request downloadRequest = new DownloadManager.Request(Uri.parse(uri));
         downloadRequest.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI | DownloadManager.Request.NETWORK_MOBILE);
         downloadRequest.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-        /**设置漫游状态下是否可以下载*/
+        /*设置漫游状态下是否可以下载*/
         downloadRequest.setAllowedOverRoaming(false);
         /**如果我们希望下载的文件可以被系统的Downloads应用扫描到并管理，
          我们需要调用Request对象的setVisibleInDownloadsUi方法，传递参数true.*/
@@ -67,7 +67,8 @@ public class DownLoadUtils {
         downloadRequest.setTitle(title);
         downloadRequest.setDescription(description);
         //req.setMimeType("application/vnd.android.package-archive");
-        return mDownloadManager.enqueue(downloadRequest);//异步请求
+        // 异步请求
+        return mDownloadManager.enqueue(downloadRequest);
     }
 
     /**

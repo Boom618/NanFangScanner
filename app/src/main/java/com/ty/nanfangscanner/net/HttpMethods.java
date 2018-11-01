@@ -19,22 +19,26 @@ import com.ty.nanfangscanner.gson.StringDefault0Adapter;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * description:
  * author: XingZheng
  * date: 2016/11/22.
+ * @author TY
  */
 public class HttpMethods {
 
-    public static final int DEFAULT_TIMEOUT = 20;//默认超时时间
+    /**
+     * 默认超时时间
+     */
+    public static final int DEFAULT_TIMEOUT = 20;
     private  Retrofit mRetrofit;
     private final BaseApiService mService;
     private static Gson gson;
@@ -52,7 +56,7 @@ public class HttpMethods {
         mRetrofit = new Retrofit.Builder()
                 .client(client.build())
                 .addConverterFactory(GsonConverterFactory.create(buildGson()))
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .baseUrl(baseUrl)
                 .build();
 
@@ -68,7 +72,7 @@ public class HttpMethods {
         mRetrofit = new Retrofit.Builder()
                 .client(client.build())
                 .addConverterFactory(GsonConverterFactory.create(buildGson()))
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .baseUrl(url)
                 .build();
 

@@ -25,3 +25,6 @@ hs_err_pid*
 *.idea
 NanFangScanner.iml
 .idea/gradle.xml
+app/app.iml
+app/build.gradle
+NanFangScanner.iml

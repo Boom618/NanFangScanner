@@ -10,6 +10,9 @@ import android.widget.Toast;
 import com.ty.nanfangscanner.utils.Utils;
 
 
+/**
+ * @author TY
+ */
 public class ApkInstallReceiver extends BroadcastReceiver {
 
     @Override

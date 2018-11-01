@@ -30,7 +30,7 @@ import java.io.NotSerializableException;
 import java.net.ConnectException;
 import java.net.UnknownHostException;
 
-import retrofit2.adapter.rxjava.HttpException;
+import retrofit2.HttpException;
 
 
 /**
@@ -38,6 +38,8 @@ import retrofit2.adapter.rxjava.HttpException;
  * 作者： zhouyou<br>
  * 日期： 2016/12/15 16:50 <br>
  * 版本： v1.0<br>
+ *
+ * @author TY
  */
 public class ApiException extends Exception {
     //对应HTTP的状态码
@@ -78,12 +80,11 @@ public class ApiException extends Exception {
     }
 
     public static boolean isOk(ApiResult apiResult) {
-        if (apiResult == null)
+        if (apiResult == null) {
             return false;
-        if (apiResult.isOk() /*|| ignoreSomeIssue(apiResult.getCode())*/)
-            return true;
-        else
-            return false;
+        }
+        /*|| ignoreSomeIssue(apiResult.getCode())*/
+        return apiResult.isOk();
     }
 
     public static ApiException handleException(Throwable e) {
@@ -114,7 +115,6 @@ public class ApiException extends Exception {
             return ex;
         } else if (e instanceof JsonParseException
                 || e instanceof JSONException
-                || e instanceof JsonSyntaxException
                 || e instanceof JsonSerializer
                 || e instanceof NotSerializableException
                 || e instanceof ParseException) {

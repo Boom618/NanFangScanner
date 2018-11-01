@@ -12,6 +12,7 @@ import com.ty.nanfangscanner.constant.ApiNameConstant;
 
 import java.util.List;
 
+import io.reactivex.Observable;
 import okhttp3.RequestBody;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -20,11 +21,14 @@ import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
-import rx.Observable;
 
+/**
+ * @author TY
+ */
 public interface BaseApiService {
 
     /**
+     * 登录
      * @param requestBody
      * @return
      */
@@ -38,6 +42,7 @@ public interface BaseApiService {
      * @param authorization
      * @param companyCode
      * @param terminalId
+     * @param status
      * @return
      */
     @Headers("Accept: application/json")
@@ -53,6 +58,7 @@ public interface BaseApiService {
      * @param authorization
      * @param companyCode
      * @param terminalId
+     * @param status
      * @return
      */
     @Headers("Accept: application/json")
@@ -64,9 +70,12 @@ public interface BaseApiService {
 
 
     /**
-     * 登记检验
      *
+     * 登记检验
+     * @param authorization
      * @param requestBody
+     * @param companyCode
+     * @param terminalId
      * @return
      */
     @Headers("Accept: application/json")
