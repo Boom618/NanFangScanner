@@ -56,69 +56,59 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:paddingLeft="@dimen/space_20"
         android:layout_weight="1"
         android:background="@color/white"
-        android:orientation="vertical"
-        android:paddingLeft="@dimen/space_20"
         android:paddingRight="@dimen/space_20"
-        android:paddingBottom="@dimen/space_10">
-
+        android:paddingBottom="@dimen/space_10"
+        android:orientation="vertical">
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/space_5"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:padding="@dimen/space_5">
-
-            <EditText
-                android:id="@+id/et_code"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@null"
-                android:gravity="center_vertical"
-                android:hint="请按顺序扫描卷纸结尾的码"
-                android:textColorHint="@color/main_color"
-                android:textCursorDrawable="@drawable/edittext_cusor_shape"
-                android:textSize="@dimen/text_14" />
-
-            <TextView
-                android:id="@+id/iv_reset"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:padding="@dimen/space_5"
-                android:src="@mipmap/ic_reset"
-                android:text="@string/clear"
-                android:textColor="@color/main_color" />
-        </LinearLayout>
-        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/shape_white2black_radius"
             android:orientation="vertical">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/space_5"
+                android:gravity="center_vertical"
+                android:padding="@dimen/space_5"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/et_code"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="请按顺序扫描卷纸结尾的码"
+                    android:textColorHint="@color/main_color"
+                    android:gravity="center_vertical"
+                    android:background="@null"
+                    android:textCursorDrawable="@drawable/edittext_cusor_shape"
+                    android:textSize="@dimen/text_14"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:id="@+id/iv_reset"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/space_5"
+                    android:text="@string/clear"
+                    android:gravity="center"
+                    android:textColor="@color/main_color"
+                    android:src="@mipmap/ic_reset"/>
+            </LinearLayout>
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_code"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1"
                 android:paddingLeft="@dimen/space_3"
-                android:paddingRight="@dimen/space_3" />
+                android:paddingRight="@dimen/space_3"
+                android:layout_weight="1"
+                />
 
-            <android.support.design.widget.FloatingActionButton
-                android:id="@+id/fab"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
-                android:layout_gravity="bottom|end"
-                android:layout_marginEnd="15dp"
-                android:layout_marginBottom="15dp"
-                app:srcCompat="@android:drawable/ic_dialog_dialer" />
-        </RelativeLayout>
-
+        </LinearLayout>
     </LinearLayout>
 
 
@@ -140,17 +130,36 @@
         android:paddingBottom="@dimen/space_10">
 
         <ImageView
-            android:id="@+id/iv_cancel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingTop="@dimen/space_5"
-            android:src="@mipmap/ic_cancel" />
+        android:id="@+id/iv_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/space_5"
+        android:src="@mipmap/ic_cancel" />
+
+        <!--<com.ty.nanfangscanner.view.ButtonView-->
+            <!--android:id="@+id/button_cancel"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="@dimen/space_50"-->
+            <!--android:layout_weight="1"-->
+            <!--app:button_angle="8dp"-->
+            <!--app:button_background="@color/colorAccent"-->
+            <!--app:button_padding="5dp"-->
+            <!--app:button_text="@string/cancel" />-->
+
+        <!--<com.ty.nanfangscanner.view.ButtonView-->
+            <!--android:id="@+id/button_save"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="@dimen/space_50"-->
+            <!--android:layout_weight="1"-->
+            <!--app:button_angle="8dp"-->
+            <!--app:button_background="@color/colorAccent"-->
+            <!--app:button_padding="5dp"-->
+            <!--app:button_text="@string/save" />-->
 
         <ImageView
             android:id="@+id/iv_next"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/space_50"
             android:paddingTop="@dimen/space_5"
             android:src="@mipmap/ic_next" />
 

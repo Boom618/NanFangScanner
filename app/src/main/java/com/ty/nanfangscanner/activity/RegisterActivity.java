@@ -6,7 +6,6 @@ import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -20,6 +19,7 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.ty.nanfangscanner.R;
+import com.ty.nanfangscanner.activity.base.BaseActivity;
 import com.ty.nanfangscanner.adapter.DialogProductAdapter;
 import com.ty.nanfangscanner.adapter.SectionNumberAdapter;
 import com.ty.nanfangscanner.bean.LoginInfo;
@@ -37,6 +37,7 @@ import com.ty.nanfangscanner.utils.UIUtils;
 import com.ty.nanfangscanner.utils.Utils;
 import com.ty.nanfangscanner.view.DividerItemDecoration;
 import com.ty.nanfangscanner.view.MyTextView;
+import com.ty.nanfangscanner.view.WidgetDialog;
 import com.wevey.selector.dialog.DialogInterface;
 import com.wevey.selector.dialog.NormalAlertDialog;
 import com.wevey.selector.dialog.NormalSelectionDialog;
@@ -51,16 +52,16 @@ import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 
-public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
+/**
+ * @author TY
+ */
+public class RegisterActivity extends BaseActivity implements View.OnClickListener {
 
     @BindView(R.id.iv_back)
     ImageView ivBack;
-    @BindView(R.id.tv_title)
-    TextView tvTitle;
     @BindView(R.id.tv_brand)
     TextView tvBrand;
     @BindView(R.id.tv_product)
@@ -99,14 +100,23 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private String tokenUpdateTime;
     private HashMap<String, Integer> productIdMap;
 
+    String projectName;
+    String brandName;
+    String cancelButton;
+    String nullProject;
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        initData();
-        initView();
+    protected void onBaseCreate(Bundle savedInstanceState) {
+        initToolBar(R.string.register_list);
     }
 
-    private void initData() {
+    @Override
+    protected int setActivityLayout() {
+        return R.layout.activity_register;
+    }
+
+    @Override
+    protected void initData() {
         Intent intent = getIntent();
         mSelectedBrand = intent.getStringExtra("brand");
         mSelectedProduct = intent.getStringExtra("product");
@@ -128,7 +138,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
         if (productBrandInfos != null) {
             productListCopy.clear();
-            if (mSelectedBrand.equals("无品牌")) {//没有品牌信息
+            // 没有品牌信息
+            if (mSelectedBrand.equals(nullProject)) {
                 productListCopy.addAll(productList);
             } else {
                 for (ProductBrandInfo info : productBrandInfos) {
@@ -139,7 +150,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             }
         }
 
-        // productListCopy.addAll(productList);
         String jsonStr = FileUtils.readFile(ConstantUtil.REGISTER_CACHE);
         if (!TextUtils.isEmpty(jsonStr) && !"[]".equals(jsonStr)) {
             Gson gson = new Gson();
@@ -150,18 +160,23 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             }
         }
 
-        Log.e("TAG",mSelectedProduct+"==11111=="+mSelectedProductId);
+        Log.e("TAG", mSelectedProduct + "==11111==" + mSelectedProductId);
     }
 
-    private void initView() {
-        setContentView(R.layout.activity_register);
-        ButterKnife.bind(this);
-        tvTitle.setText("号段组列表");
+    @Override
+    protected void initView() {
+
         ivBack.setOnClickListener(this);
         ivUpdate.setOnClickListener(this);
         ivStart.setOnClickListener(this);
         ivCancel.setOnClickListener(this);
         ivCommit.setOnClickListener(this);
+
+        projectName = getResources().getString(R.string.select_project);
+        brandName = getResources().getString(R.string.select_brand);
+        cancelButton = getResources().getString(R.string.cancel);
+        nullProject = getResources().getString(R.string.null_project);
+
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(UIUtils.getContext());
         rvProduce.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST,
                 UIUtils.dip2px(1), UIUtils.getColor(R.color.split_line)));
@@ -184,12 +199,15 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             @Override
             public void onNext(List<RegisterCheckInfo> registerCheckInfos) {
                 super.onNext(registerCheckInfos);
-                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
-                String commitTime = df.format(new Date());// new Date()为获取当前系统时间
+                //设置日期格式 "yyyy-MM-dd HH:mm:ss"
+                SimpleDateFormat df = new SimpleDateFormat(Utils.DATE_SIMPLE_H_M_S);
+                // new Date()为获取当前系统时间
+                String commitTime = df.format(new Date());
                 if (registerCheckInfos != null) {
                     List<RegisterCheckInfo> successList = new ArrayList<>();
                     List<RegisterCheckInfo> failList = new ArrayList<>();
-                    Map<String, Integer> productMap = new HashMap<>();//存放key:产品名称,value:产品数量
+                    //存放key:产品名称,value:产品数量
+                    Map<String, Integer> productMap = new HashMap<>();
                     List<String> productNameList = new ArrayList<>();
                     for (RegisterCheckInfo info : registerCheckInfos) {
                         String productName = info.getProductName();
@@ -198,7 +216,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                         } else {
                             failList.add(info);
                         }
-                        ////初始化productMap
+                        // 初始化 productMap
                         if (productNameList.contains(productName)) {
                             int newNum = productMap.get(productName) + 1;
                             productMap.put(productName, newNum);
@@ -209,7 +227,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                     }
                     sectionNumberList.clear();
                     adapter.notifyDataSetChanged();
-                    FileUtils.deleteFoder(new File(ConstantUtil.FILE_DIR + ConstantUtil.REGISTER_CACHE + ".txt"));//删除缓存文件
+                    //删除缓存文件
+                    FileUtils.deleteFoder(new File(ConstantUtil.FILE_DIR + ConstantUtil.REGISTER_CACHE + ".txt"));
                     showCommitSuccessDialog(commitTime, successList, failList, productMap);
                 }
             }
@@ -238,11 +257,11 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 if (sectionNumberList.size() > 0) {
                     showCancelDialog();
                 } else {
-                    FileUtils.deleteFoder(new File(ConstantUtil.FILE_DIR + ConstantUtil.REGISTER_CACHE + ".txt"));//删除缓存文件
+                    // 删除缓存文件
+                    FileUtils.deleteFoder(new File(ConstantUtil.FILE_DIR + ConstantUtil.REGISTER_CACHE + ".txt"));
                     finish();
                 }
                 break;
-
             case R.id.iv_update:
                 showUpdateDialog();
                 break;
@@ -250,16 +269,15 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             case R.id.iv_start:
                 toStartCodeActivity();
                 break;
-
             case R.id.iv_cancel:
                 if (sectionNumberList.size() > 0) {
                     showCancelDialog();
                 } else {
-                    FileUtils.deleteFoder(new File(ConstantUtil.FILE_DIR + ConstantUtil.REGISTER_CACHE + ".txt"));//删除缓存文件
+                    //删除缓存文件
+                    FileUtils.deleteFoder(new File(ConstantUtil.FILE_DIR + ConstantUtil.REGISTER_CACHE + ".txt"));
                     finish();
                 }
                 break;
-
             case R.id.iv_commit:
                 int timeInterval = TimeUtil.getTimeInterval(TimeUtil.getCurretTime(), tokenUpdateTime);
                 if (timeInterval > 2) {
@@ -267,6 +285,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 } else {
                     initRegisterParam(sectionNumberList);
                 }
+                break;
+            default:
                 break;
         }
     }
@@ -303,7 +323,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             intent.putExtra("productId", mSelectedProductId);
             startActivity(intent);
         } else {
-            UIUtils.showToast("请选择产品/品牌");
+            UIUtils.showToast(getResources().getString(R.string.select_pro_and_brand));
         }
     }
 
@@ -324,8 +344,9 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         ImageView mIvCancel = view.findViewById(R.id.iv_cancel);
         ImageView mIvSave = view.findViewById(R.id.iv_save);
 
-        mTvProduct.setText(mSelectedProduct);//默认项
-        mTvBrand.setText(mSelectedBrand);//默认项
+        //默认项
+        mTvProduct.setText(mSelectedProduct);
+        mTvBrand.setText(mSelectedBrand);
 
         final AlertDialog dialog = new AlertDialog.Builder(RegisterActivity.this).create();
         dialog.setCancelable(false);
@@ -337,7 +358,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 dialog.dismiss();
                 //筛选该品牌的产品
                 productListCopy.clear();
-                if (mSelectedBrand.equals("无品牌")) {//没有品牌信息
+                //没有品牌信息
+                if (mSelectedBrand.equals(nullProject)) {
                     productListCopy.addAll(productList);
                 } else {
                     for (ProductBrandInfo info : productBrandInfos) {
@@ -373,78 +395,57 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                     dialog.dismiss();
                     mSelectedBrand = mTvBrand.getText().toString();
                     mSelectedProduct = mTvProduct.getText().toString();
-                    mSelectedProductId=productIdMap.get(mSelectedProduct);
+                    mSelectedProductId = productIdMap.get(mSelectedProduct);
                     mSelectedBrandId = Utils.getKey(brandMap, mSelectedBrand);
                     tvBrand.setText("品牌：" + mSelectedBrand);
                     tvProduct.setText("产品：" + mSelectedProduct);
                 } else {
-                    UIUtils.showToast("请选择产品/品牌");
+                    UIUtils.showToast(getResources().getString(R.string.select_pro_and_brand));
                 }
             }
         });
     }
 
-    public void selectProduct(final List<String> datas, final TextView textViewProduct,
-                              final TextView textViewBrand) {
-        NormalSelectionDialog.Builder builder = new NormalSelectionDialog.Builder(this);
-        builder.setlTitleVisible(true)   //设置是否显示标题
-                .setTitleHeight(50)   //设置标题高度
-                .setTitleText("选择产品")  //设置标题提示文本
-                .setTitleTextSize(14) //设置标题字体大小 sp
-                .setTitleTextColor(R.color.main_color) //设置标题文本颜色
-                .setItemHeight(40)  //设置item的高度
-                .setItemWidth(0.9f)  //屏幕宽度*0.9
-                .setItemTextColor(R.color.black)  //设置item字体颜色
-                .setItemTextSize(14)  //设置item字体大小
-                .setCancleButtonText("取消")  //设置最底部“取消”按钮文本
-                .setOnItemListener(new DialogInterface.OnItemClickListener<NormalSelectionDialog>() {
+    private void selectProduct(final List<String> datas, final TextView textViewProduct,
+                               final TextView textViewBrand) {
 
-                    @Override
-                    public void onItemClick(NormalSelectionDialog dialog, View button, int
-                            position) {
-                        dialog.dismiss();
-                        String selectedProduct = datas.get(position);
-                        textViewProduct.setText(selectedProduct);
+        WidgetDialog.show_title_button_list(this, projectName, cancelButton, datas, new DialogInterface.OnItemClickListener<NormalSelectionDialog>() {
 
-                        String brandName = productBrandMap.get(selectedProduct);
-                        if (TextUtils.isEmpty(brandName)) {
-                            brandName = "无品牌";
-                        }
-                        textViewBrand.setText(brandName);
+            @Override
+            public void onItemClick(NormalSelectionDialog dialog, View button, int
+                    position) {
+                dialog.dismiss();
+                String selectedProduct = datas.get(position);
+                textViewProduct.setText(selectedProduct);
 
-                        //筛选该品牌的产品
-                        productListCopy.clear();
-                        if (brandName.equals("无品牌")) {//没有品牌信息
-                            productListCopy.addAll(productList);
-                        } else {
-                            for (ProductBrandInfo info : productBrandInfos) {
-                                if (brandName.equals(info.getBrandName())) {
-                                    productListCopy.add(info.getProductName());
-                                }
-                            }
+                String brandName = productBrandMap.get(selectedProduct);
+                if (TextUtils.isEmpty(brandName)) {
+                    brandName = nullProject;
+                }
+                textViewBrand.setText(brandName);
+
+                //筛选该品牌的产品
+                productListCopy.clear();
+                //没有品牌信息
+                if (brandName.equals(nullProject)) {
+                    productListCopy.addAll(productList);
+                } else {
+                    for (ProductBrandInfo info : productBrandInfos) {
+                        if (brandName.equals(info.getBrandName())) {
+                            productListCopy.add(info.getProductName());
                         }
                     }
-                })
-                .setCanceledOnTouchOutside(true)  //设置是否可点击其他地方取消dialog
-                .build()
-                .setDatas(datas)
-                .show();
+                }
+            }
+        });
+
     }
 
-    public void selectBrand(final List<String> datas, final TextView textViewBrand,
-                            final TextView textViewProduct) {
-        NormalSelectionDialog.Builder builder = new NormalSelectionDialog.Builder(this);
-        builder.setlTitleVisible(true)   //设置是否显示标题
-                .setTitleHeight(50)   //设置标题高度
-                .setTitleText("选择品牌")  //设置标题提示文本
-                .setTitleTextSize(14) //设置标题字体大小 sp
-                .setTitleTextColor(R.color.main_color) //设置标题文本颜色
-                .setItemHeight(40)  //设置item的高度
-                .setItemWidth(0.9f)  //屏幕宽度*0.9
-                .setItemTextColor(R.color.black)  //设置item字体颜色
-                .setItemTextSize(14)  //设置item字体大小
-                .setCancleButtonText("取消")  //设置最底部“取消”按钮文本
-                .setOnItemListener(new DialogInterface.OnItemClickListener<NormalSelectionDialog>() {
+    private void selectBrand(final List<String> datas, final TextView textViewBrand,
+                             final TextView textViewProduct) {
+
+        WidgetDialog.show_title_button_list(this, brandName, cancelButton, datas,
+                new DialogInterface.OnItemClickListener<NormalSelectionDialog>() {
 
                     @Override
                     public void onItemClick(NormalSelectionDialog dialog, View button, int
@@ -456,7 +457,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                         //筛选品牌
                         if (productBrandInfos != null) {
                             productListCopy.clear();
-                            if (selectedBrand.equals("无品牌")) {//没有品牌信息
+                            //没有品牌信息
+                            if (selectedBrand.equals(nullProject)) {
                                 productListCopy.addAll(productList);
                             } else {
                                 for (ProductBrandInfo info : productBrandInfos) {
@@ -467,11 +469,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                             }
                         }
                     }
-                })
-                .setCanceledOnTouchOutside(true)  //设置是否可点击其他地方取消dialog
-                .build()
-                .setDatas(datas)
-                .show();
+                });
     }
 
     private void showCommitSuccessDialog(String commitTime, List<RegisterCheckInfo> successList,
@@ -576,19 +574,14 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void showCancelDialog() {
-        NormalAlertDialog dialog2 = new NormalAlertDialog.Builder(RegisterActivity.this)
-                .setHeight(0.23f)  //屏幕高度*0.23
-                .setWidth(0.65f)  //屏幕宽度*0.65
-                .setTitleVisible(true)
-                .setTitleText("温馨提示")
-                .setTitleTextColor(R.color.black_light)
-                .setContentText("是否保存数据？")
-                .setContentTextColor(R.color.black_light)
-                .setLeftButtonText("不保存")
-                .setLeftButtonTextColor(R.color.gray)
-                .setRightButtonText("保存")
-                .setRightButtonTextColor(R.color.black_light)
-                .setOnclickListener(new DialogInterface.OnLeftAndRightClickListener<NormalAlertDialog>() {
+
+        String titleText = getResources().getString(R.string.warm_tips);
+        String contentText = getResources().getString(R.string.query_save_data);
+        String leftText = getResources().getString(R.string.save_data_no);
+        String rightText = getResources().getString(R.string.save_data);
+
+        WidgetDialog.show_title_content_left_right(this, titleText, contentText,
+                leftText, rightText, new DialogInterface.OnLeftAndRightClickListener<NormalAlertDialog>() {
                     @Override
                     public void clickLeftButton(NormalAlertDialog dialog, View view) {
                         dialog.dismiss();
@@ -602,8 +595,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                         FileUtils.writeFile(ConstantUtil.REGISTER_CACHE, jsonStr);
                         finish();
                     }
-                }).build();
-        dialog2.show();
+                });
     }
 
     @Override
@@ -614,7 +606,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             } else {
                 finish();
             }
-            return false; // 事件继续向下传播
+            // 事件继续向下传播
+            return false;
         }
         return super.onKeyDown(keyCode, event);
     }
@@ -622,7 +615,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE && resultCode == RESULT_CODE) {//退出当前界面
+        //退出当前界面
+        if (requestCode == REQUEST_CODE && resultCode == RESULT_CODE) {
             if (commitSuccessDialog != null && commitSuccessDialog.isShowing()) {
                 commitSuccessDialog.dismiss();
             }
@@ -631,8 +625,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
     private void showDeleteDialog(final int position) {
         NormalAlertDialog dialog2 = new NormalAlertDialog.Builder(RegisterActivity.this)
-                .setHeight(0.23f)  //屏幕高度*0.23
-                .setWidth(0.65f)  //屏幕宽度*0.65
+                //屏幕高度*0.23
+                .setHeight(0.23f)
+                //屏幕宽度*0.65
+                .setWidth(0.65f)
                 .setTitleVisible(true)
                 .setTitleText("温馨提示")
                 .setTitleTextColor(R.color.black_light)
@@ -672,7 +668,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 if (loginInfo != null) {
                     mSp.edit().putString(ConstantUtil.SP_TOKEN, loginInfo.getAccessToken())
                             .putString(ConstantUtil.SP_TOKEN_TYPE, loginInfo.getTokenType())
-                            .putString(ConstantUtil.SP_TOKEN_UPDATE_TIME, TimeUtil.getCurretTime())//token更新的时间
+                            // token更新的时间
+                            .putString(ConstantUtil.SP_TOKEN_UPDATE_TIME, TimeUtil.getCurretTime())
                             .apply();
                     authorization = loginInfo.getTokenType() + " " + loginInfo.getAccessToken();
                     initRegisterParam(sectionNumberList);

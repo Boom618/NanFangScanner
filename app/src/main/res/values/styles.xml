@@ -30,6 +30,19 @@
         <item name="android:windowBackground">@color/white</item>
     </style>
 
+    <!-- 自定义 button 样式 -->
+    <declare-styleable name="buttonStyle">
+        <attr name="button_width" format="dimension" />
+        <attr name="button_height" format="dimension" />
+        <attr name="button_text" format="string" />
+        <attr name="button_padding" format="dimension" />
+        <attr name="button_background" format="color" />
+        <attr name="button_textColor" format="color" />
+        <attr name="button_roundColor" format="color" />
+        <attr name="button_angle" format="dimension" />
+        <attr name="button_textSize" format="dimension" />
+    </declare-styleable>
+
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />

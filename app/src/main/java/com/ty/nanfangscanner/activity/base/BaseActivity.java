@@ -3,6 +3,10 @@ package com.ty.nanfangscanner.activity.base;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.TextView;
+
+import com.ty.nanfangscanner.R;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -27,9 +31,11 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     /**
      * onCreate view
+     *
      * @param savedInstanceState
      */
     protected abstract void onBaseCreate(Bundle savedInstanceState);
+
     /**
      * 设置 layout
      *
@@ -55,6 +61,25 @@ public abstract class BaseActivity extends AppCompatActivity {
 
 
         initData();
+    }
+
+    /**
+     * 统一 Bar
+     * @param intId 标题
+     */
+    protected void initToolBar(int intId) {
+        // 左边返回
+        findViewById(R.id.iv_back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        // 中间标题
+        TextView topText = findViewById(R.id.tv_title);
+        topText.setText(intId);
+
     }
 
     /**

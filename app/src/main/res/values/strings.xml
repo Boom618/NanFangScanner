@@ -1,11 +1,31 @@
 <resources>
     <string name="app_name">南方生产管理终端</string>
     <string name="common_tip">只为您能操作的更简单</string>
+
     <string name="login_text_one">账号</string>
     <string name="login_text_two">密码</string>
     <string name="login_text_three">登录</string>
     <string name="loading">正在加载....</string>
+
     <string name="clear">清空</string>
+    <string name="cancel">取消</string>
+    <string name="save">保存</string>
+    <string name="next">提交</string>
+
+
+    <string name="register_list">号段组列表</string>
+
+    <string name="select_project">选择产品</string>
+    <string name="select_brand">选择品牌</string>
+    <string name="null_project">无品牌</string>
+    <string name="select_pro_and_brand">请选择产品/品牌</string>
+
+    <string name="warm_tips">温馨提示</string>
+    <string name="query_save_data">是否保存数据？</string>
+    <string name="save_data_no">不保存</string>
+    <string name="save_data">保存</string>
+
+
     <string name="app_version">V 1.2</string>
     <string name="title_activity_base">BaseActivity</string>
     <string name="title_activity_test">TestActivity</string>

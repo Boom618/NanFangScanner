@@ -20,11 +20,11 @@ public class LoginPresenter {
     private static final int CODE_401 = 401;
     private static final int CODE_1009 = 1009;
 
-    LoginUIInterface loginUI;
+    LoginUiInterface loginUI;
 
     LoginModelInterface loginModel = new LoginModelInterfaceImpl();
 
-    public LoginPresenter(LoginUIInterface loginUI) {
+    public LoginPresenter(LoginUiInterface loginUI) {
         this.loginUI = loginUI;
     }
 
@@ -37,8 +37,13 @@ public class LoginPresenter {
             @Override
             public void onNext(LoginInfo loginInfo) {
                 super.onNext(loginInfo);
+
+                loginUI.hideLoading();
+
                 if (loginInfo != null) {
                     loginModel.saveData(loginInfo, mSp, userNo, pwd);
+
+                    loginUI.gotoNextActivity();
                 }
 
             }
@@ -46,6 +51,9 @@ public class LoginPresenter {
             @Override
             public void onError(ApiException e) {
                 super.onError(e);
+
+                loginUI.hideLoading();
+
                 String message;
                 if (e.getCode() == CODE_400) {
                     message = "用户名或密码错误！";

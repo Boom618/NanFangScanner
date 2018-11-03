@@ -15,6 +15,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+/**
+ * @author TY
+ */
 public class SectionNumberAdapter extends RecyclerView.Adapter<SectionNumberAdapter.ViewHolder> {
 
 

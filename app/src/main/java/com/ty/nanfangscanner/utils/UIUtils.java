@@ -3,6 +3,7 @@ package com.ty.nanfangscanner.utils;
 import android.content.Context;
 import android.content.res.Resources;
 import android.support.v4.content.ContextCompat;
+import android.util.TypedValue;
 import android.widget.Toast;
 
 import com.ty.nanfangscanner.App;
@@ -45,6 +46,17 @@ public class UIUtils {
     public static int dip2px(int dip) {
         final float scale = getResource().getDisplayMetrics().density;
         return (int) (dip * scale + 0.5f);
+    }
+    /**
+     * dp To px
+     *
+     * @param dp
+     * @return
+     */
+    public static float dp2px(float dp) {
+
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp
+                , Resources.getSystem().getDisplayMetrics());
     }
 
     /**

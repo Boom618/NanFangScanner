@@ -7,9 +7,9 @@ package com.ty.nanfangscanner.constant;
 
 public class ApiNameConstant {
 
-    public final static String BASE_URL = "https://top-api.aax6.cn/";
+//    public final static String BASE_URL = "https://top-api.aax6.cn/";
 
-    //  public final static String BASE_URL = "https://top-api-qa.aax6.cn/";//测试地址
+      public final static String BASE_URL = "https://top-api-qa.aax6.cn/";//测试地址
 
     /**
      * 登录

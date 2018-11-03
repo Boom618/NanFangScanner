@@ -46,11 +46,9 @@ public class SplashActivity extends BaseActivity {
             @Override
             public void run() {
                 if (isLogin) {
-                    //startActivity(new Intent(SplashActivity.this, MainActivity.class));
                     gotoActivity(MainActivity.class);
                 } else {
                     //跳转到登录界面
-                    //startActivity(new Intent(SplashActivity.this, LoginActivity.class));
                     gotoActivity(LoginActivity.class);
                 }
                 finish();

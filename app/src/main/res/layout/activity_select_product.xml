@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.SelectProductActivity"
     android:background="@color/white"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".activity.SelectProductActivity">
 
     <include
         android:id="@+id/rl_top"
@@ -15,10 +16,10 @@
         android:id="@+id/tv1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/rl_top"
         android:layout_marginLeft="@dimen/space_20"
         android:layout_marginTop="@dimen/space_40"
         android:text="品牌："
-        android:layout_below="@id/rl_top"
         android:textColor="@color/gray_46"
         android:textSize="@dimen/text_14" />
 
@@ -26,15 +27,15 @@
         android:id="@+id/tv_brand"
         android:layout_width="match_parent"
         android:layout_height="@dimen/space_35"
+        android:layout_below="@+id/tv1"
         android:layout_marginLeft="@dimen/space_20"
-        android:layout_marginRight="@dimen/space_20"
         android:layout_marginTop="@dimen/space_10"
+        android:layout_marginRight="@dimen/space_20"
         android:background="@drawable/gray_bg_conner"
-        android:drawablePadding="@dimen/space_5"
         android:drawableRight="@mipmap/icon_up_down"
+        android:drawablePadding="@dimen/space_5"
         android:gravity="center_vertical"
         android:hint="选择品牌"
-        android:layout_below="@+id/tv1"
         android:paddingLeft="@dimen/space_10"
         android:paddingRight="@dimen/space_10"
         android:singleLine="true"
@@ -46,10 +47,10 @@
         android:id="@+id/tv2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_brand"
         android:layout_marginLeft="@dimen/space_20"
         android:layout_marginTop="@dimen/space_20"
         android:text="产品："
-        android:layout_below="@+id/tv_brand"
         android:textColor="@color/gray_46"
         android:textSize="@dimen/text_14" />
 
@@ -57,14 +58,14 @@
         android:id="@+id/tv_product"
         android:layout_width="match_parent"
         android:layout_height="@dimen/space_35"
-        android:layout_marginLeft="@dimen/space_20"
-        android:layout_marginRight="@dimen/space_20"
-        android:layout_marginTop="@dimen/space_10"
-        android:background="@drawable/gray_bg_conner"
-        android:drawablePadding="@dimen/space_5"
-        android:drawableRight="@mipmap/icon_up_down"
-        android:gravity="center_vertical"
         android:layout_below="@+id/tv2"
+        android:layout_marginLeft="@dimen/space_20"
+        android:layout_marginTop="@dimen/space_10"
+        android:layout_marginRight="@dimen/space_20"
+        android:background="@drawable/gray_bg_conner"
+        android:drawableRight="@mipmap/icon_up_down"
+        android:drawablePadding="@dimen/space_5"
+        android:gravity="center_vertical"
         android:hint="选择产品"
         android:paddingLeft="@dimen/space_10"
         android:paddingRight="@dimen/space_10"
@@ -77,24 +78,80 @@
         android:id="@+id/ll_more"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
+        android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        android:paddingBottom="@dimen/space_10"
-        android:orientation="horizontal">
+        android:layout_marginBottom="0dp"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/space_15">
+
 
         <ImageView
-            android:id="@+id/btn_cancel"
+            android:id="@+id/button_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/ic_cancel"
-            />
+            android:src="@mipmap/ic_cancel" />
 
         <ImageView
-            android:id="@+id/btn_next"
+            android:id="@+id/button_next"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/ic_next"
-            android:layout_marginLeft="@dimen/space_50"/>
+            android:layout_marginLeft="@dimen/space_50"
+            android:src="@mipmap/ic_next" />
+
+
+        <!--<com.ty.nanfangscanner.view.ButtonView-->
+        <!--android:id="@+id/button_cancel"-->
+        <!--android:layout_width="100dp"-->
+        <!--android:layout_height="40dp"-->
+        <!--app:button_height="30dp"-->
+        <!--app:button_width="120dp"-->
+        <!--app:button_angle="18dp"-->
+        <!--app:button_background="@color/main_color"-->
+        <!--app:button_padding="5dp"-->
+        <!--app:button_roundColor="@color/colorAccent"-->
+        <!--app:button_text="@string/cancel" />-->
+
+        <!--<com.ty.nanfangscanner.view.ButtonView-->
+        <!--android:id="@+id/button_next"-->
+        <!--android:layout_width="100dp"-->
+        <!--android:layout_height="40dp"-->
+        <!--app:button_height="30dp"-->
+        <!--app:button_width="120dp"-->
+        <!--app:button_angle="18dp"-->
+        <!--app:button_background="@color/main_color"-->
+        <!--app:button_padding="5dp"-->
+        <!--app:button_roundColor="@color/colorAccent"-->
+        <!--app:button_text="@string/next" />-->
+
+        <!--<com.landptf.view.ButtonM-->
+        <!--android:id="@+id/button_cancel"-->
+        <!--android:layout_weight="1"-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="50dp"-->
+        <!--android:layout_margin="16dp"-->
+        <!--android:gravity="center"-->
+        <!--android:text="@string/cancel"-->
+        <!--app:backColor="#ff3300"-->
+        <!--app:backColorPress="#ff33ff"-->
+        <!--app:fillet="true"-->
+        <!--app:radius="30"-->
+        <!--app:textColor="@android:color/white" />-->
+
+        <!--<com.landptf.view.ButtonM-->
+        <!--android:id="@+id/button_next"-->
+        <!--android:layout_weight="1"-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="50dp"-->
+        <!--android:layout_margin="16dp"-->
+        <!--android:gravity="center"-->
+        <!--android:text="@string/next"-->
+        <!--app:backColor="#ff3300"-->
+        <!--app:backColorPress="#ff33ff"-->
+        <!--app:fillet="true"-->
+        <!--app:radius="30"-->
+        <!--app:textColor="@android:color/white" />-->
+
 
     </LinearLayout>
 

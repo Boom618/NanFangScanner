@@ -13,7 +13,7 @@ import com.ty.nanfangscanner.activity.base.BaseActivity;
 import com.ty.nanfangscanner.bean.PostLoginJson;
 import com.ty.nanfangscanner.constant.ConstantUtil;
 import com.ty.nanfangscanner.presenter.LoginPresenter;
-import com.ty.nanfangscanner.presenter.LoginUIInterface;
+import com.ty.nanfangscanner.presenter.LoginUiInterface;
 import com.ty.nanfangscanner.utils.UIUtils;
 import com.ty.nanfangscanner.utils.Utils;
 
@@ -25,7 +25,7 @@ import okhttp3.RequestBody;
  * 登录 Activity
  * @author TY
  */
-public class LoginActivity extends BaseActivity implements LoginUIInterface {
+public class LoginActivity extends BaseActivity implements LoginUiInterface {
 
     @BindView(R.id.et_num)
     EditText etNum;
@@ -84,6 +84,11 @@ public class LoginActivity extends BaseActivity implements LoginUIInterface {
     @Override
     protected void initData() {
 
+    }
+
+    @Override
+    public void gotoNextActivity() {
+        gotoActivity(MainActivity.class,true);
     }
 
     @Override

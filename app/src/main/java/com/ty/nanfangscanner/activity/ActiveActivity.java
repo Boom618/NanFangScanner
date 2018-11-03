@@ -50,6 +50,8 @@ import okhttp3.MediaType;
 import okhttp3.RequestBody;
 
 /**
+ * 激活 Activity
+ *
  * @author TY
  */
 public class ActiveActivity extends AppCompatActivity implements View.OnClickListener {

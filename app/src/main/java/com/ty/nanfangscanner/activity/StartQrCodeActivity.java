@@ -2,9 +2,6 @@ package com.ty.nanfangscanner.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -19,16 +16,15 @@ import com.ty.nanfangscanner.R;
 import com.ty.nanfangscanner.activity.base.BaseActivity;
 import com.ty.nanfangscanner.adapter.QRCodeAdapter;
 import com.ty.nanfangscanner.utils.UIUtils;
+import com.ty.nanfangscanner.view.ButtonView;
 import com.ty.nanfangscanner.view.DividerItemDecoration;
 import com.ty.nanfangscanner.view.WidgetDialog;
 import com.wevey.selector.dialog.DialogInterface;
 import com.wevey.selector.dialog.NormalAlertDialog;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * @author TY
@@ -51,8 +47,8 @@ public class StartQrCodeActivity extends BaseActivity implements View.OnClickLis
     TextView tvReset;
     @BindView(R.id.rv_code)
     RecyclerView rvCode;
-    @BindView(R.id.iv_cancel)
-    ImageView ivCancel;
+    @BindView(R.id.button_cancel)
+    ButtonView ButtonCancel;
     @BindView(R.id.iv_next)
     ImageView ivNext;
 
@@ -67,14 +63,7 @@ public class StartQrCodeActivity extends BaseActivity implements View.OnClickLis
     @Override
     protected void onBaseCreate(Bundle savedInstanceState) {
 
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "该号段组合法,可以提交", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+
     }
 
     @Override
@@ -99,7 +88,7 @@ public class StartQrCodeActivity extends BaseActivity implements View.OnClickLis
         tvTitle.setText("扫描结束码");
         ivBack.setOnClickListener(this);
         tvReset.setOnClickListener(this);
-        ivCancel.setOnClickListener(this);
+        ButtonCancel.setOnClickListener(this);
         ivNext.setOnClickListener(this);
         tvBrand.setText("品牌：" + mSelectedBrand);
         tvProduct.setText("产品：" + mSelectedProduct);
@@ -158,7 +147,7 @@ public class StartQrCodeActivity extends BaseActivity implements View.OnClickLis
                     showClearConfirmDialog();
                 }
                 break;
-            case R.id.iv_cancel:
+            case R.id.button_cancel:
                 finish();
                 break;
             case R.id.iv_next:
@@ -191,7 +180,7 @@ public class StartQrCodeActivity extends BaseActivity implements View.OnClickLis
 
     private void showClearConfirmDialog() {
 
-        WidgetDialog.showClearConfirmDialog(this, "清空列表", "是否确认清空？",
+        WidgetDialog.show_title_content_left_right(this, "清空列表", "是否确认清空？",
                 "是", "否", new DialogInterface.OnLeftAndRightClickListener<NormalAlertDialog>() {
                     @Override
                     public void clickLeftButton(NormalAlertDialog dialog, View view) {

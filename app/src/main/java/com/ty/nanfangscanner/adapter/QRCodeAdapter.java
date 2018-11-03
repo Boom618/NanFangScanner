@@ -15,6 +15,7 @@ import butterknife.ButterKnife;
 
 /**
  * 绑定跟踪标——耳标Adapter
+ * @author TY
  */
 public class QRCodeAdapter extends RecyclerView.Adapter<QRCodeAdapter.ViewHolder> {
 
