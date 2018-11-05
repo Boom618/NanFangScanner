@@ -107,7 +107,7 @@ public class EndQrCodeActivity extends AppCompatActivity implements View.OnClick
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case CHECK:
-                    doRegisterCheck(doCheck());
+                    doRegisterCheck(doCheck(),CHECK);
                     break;
                 case REGISTER:
                     doRegister(doCheck());
@@ -126,12 +126,6 @@ public class EndQrCodeActivity extends AppCompatActivity implements View.OnClick
     }
 
     private void initData() {
-//        Intent intent = getIntent();
-//        mSelectedBrand = intent.getStringExtra("brand");
-//        mSelectedProduct = intent.getStringExtra("product");
-//        mSelectedBrandId = intent.getIntExtra("brandId", -1);
-//        mSelectedProductId = intent.getIntExtra("productId", -1);
-//        endCodeList = intent.getStringArrayListExtra("endCodeList");
         Bundle bundle = getIntent().getExtras();
         mSelectedBrand = bundle.getString("brand");
         mSelectedProduct = bundle.getString("product");
@@ -205,79 +199,8 @@ public class EndQrCodeActivity extends AppCompatActivity implements View.OnClick
         });
     }
 
-    private void doRegisterCheck(RequestBody requestBody) {
-        HttpMethods.getInstance().doRegisterCheck(new ProgressSubscriber<List<RegisterCheckInfo>>(this, true) {
-            @Override
-            public void onNext(List<RegisterCheckInfo> registerCheckInfos) {
-                super.onNext(registerCheckInfos);
-                if (registerCheckInfos != null) {
-                    boolean isValid = true;//是否所有的码段都合法
-                    for (RegisterCheckInfo info : registerCheckInfos) {
-                        if (info.getStatus() == 0) {
-                            Toast.makeText(UIUtils.getContext(), info.getResultMsg(), Toast.LENGTH_LONG).show();
-                            isValid = false;
-                            return;
-                        }
-                    }
-                    if (isValid) {
-                        Toast.makeText(UIUtils.getContext(), "该号段组合法,可以提交", Toast.LENGTH_LONG).show();
-                    }
-                }
-            }
 
-            @Override
-            public void onError(ApiException e) {
-                super.onError(e);
-                String message;
-                if (e.getCode() == 401) {
-                    message = "权限拒绝，请联系管理员";
-                } else if (e.getCode() == 1009) {
-                    message = "网络异常";
-                } else {
-                    message = e.getCode() + ":" + e.getMessage();
-                }
-                UIUtils.showToast(message);
-            }
-        }, authorization, requestBody, ConstantUtil.COMPANY_CODE, ConstantUtil.TERMINALLID);
-    }
 
-    private void doRegister(RequestBody requestBody) {
-        HttpMethods.getInstance().doRegister(new ProgressSubscriber<List<RegisterCheckInfo>>(this, true) {
-            @Override
-            public void onNext(List<RegisterCheckInfo> registerCheckInfos) {
-                super.onNext(registerCheckInfos);
-                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
-                String commitTime = df.format(new Date());// new Date()为获取当前系统时间
-                if (registerCheckInfos != null) {
-                    List<RegisterCheckInfo> successList = new ArrayList<>();
-                    List<RegisterCheckInfo> failList = new ArrayList<>();
-                    for (RegisterCheckInfo info : registerCheckInfos) {
-                        if (info.getStatus() == 1) {
-                            successList.add(info);
-                        } else {
-                            failList.add(info);
-                        }
-                    }
-                    showCommitSuccessDialog(commitTime, successList, failList);
-                }
-            }
-
-            @Override
-            public void onError(ApiException e) {
-                super.onError(e);
-                String message;
-                if (e.getCode() == 401) {
-                    message = "权限拒绝，请联系管理员";
-                } else if (e.getCode() == 1009) {
-                    message = "当前网络不佳，请前往网络较好的场所重新发起提交！";
-                } else {
-                    message = e.getCode() + ":" + e.getMessage();
-                }
-                //UIUtils.showToast(message);
-                showCommitFailDialog(message);
-            }
-        }, authorization, requestBody, ConstantUtil.COMPANY_CODE, ConstantUtil.TERMINALLID);
-    }
 
     @Override
     public void onClick(View v) {
@@ -313,29 +236,23 @@ public class EndQrCodeActivity extends AppCompatActivity implements View.OnClick
                 break;
 
             case R.id.iv_check:
-                if (endCodeList != null && endCodeList.size() == startCodeList.size()) {
-                    int timeInterval = TimeUtil.getTimeInterval(TimeUtil.getCurretTime(), tokenUpdateTime);
-                    if (timeInterval > 2) {
-                        updateToken(CHECK);
-                    } else {
-                        doRegisterCheck(doCheck());
-                    }
-                } else {
-                    UIUtils.showToast("起始码段和结束码段数量不一致");
-                }
+
+                CodeCheck(CHECK);
+
                 break;
 
             case R.id.iv_commit:
-                if (endCodeList != null && endCodeList.size() == startCodeList.size()) {
-                    int timeInterval = TimeUtil.getTimeInterval(TimeUtil.getCurretTime(), tokenUpdateTime);
-                    if (timeInterval > 2) {
-                        updateToken(REGISTER);
-                    } else {
-                        doRegister(doCheck());
-                    }
-                } else {
-                    UIUtils.showToast("起始码段和结束码段数量不一致");
-                }
+//                if (endCodeList != null && endCodeList.size() == startCodeList.size()) {
+//                    int timeInterval = TimeUtil.getTimeInterval(TimeUtil.getCurretTime(), tokenUpdateTime);
+//                    if (timeInterval > 2) {
+//                        updateToken(REGISTER);
+//                    } else {
+//                        doRegister(doCheck());
+//                    }
+//                } else {
+//                    UIUtils.showToast("起始码段和结束码段数量不一致");
+//                }
+                CodeCheck(REGISTER);
                 break;
 
             case R.id.iv_save:
@@ -350,6 +267,136 @@ public class EndQrCodeActivity extends AppCompatActivity implements View.OnClick
 
         }
     }
+
+    /**
+     * ----------------------------------------- 号段检验 + 登记  --------------------------------
+     */
+    private void CodeCheck(int type) {
+
+        // 1、检验码段数量 1万 个之内
+        if (startCodeList.size() == 0) {
+            UIUtils.showToast("请扫描起始码段");
+            return;
+        }
+
+        // 2、服务器校验合法
+        if (endCodeList != null && endCodeList.size() == startCodeList.size()) {
+            int timeInterval = TimeUtil.getTimeInterval(TimeUtil.getCurretTime(), tokenUpdateTime);
+            if (timeInterval > 2) {
+                updateToken(CHECK);
+            } else {
+                doRegisterCheck(doCheck(),type);
+            }
+        } else {
+            UIUtils.showToast("起始码段和结束码段数量不一致");
+        }
+    }
+
+    /**
+     *  检查码段接口
+     * @param requestBody
+     */
+    private void doRegisterCheck(final RequestBody requestBody, final int type) {
+        HttpMethods.getInstance().doRegisterCheck(new ProgressSubscriber<List<RegisterCheckInfo>>(this, true) {
+            @Override
+            public void onNext(List<RegisterCheckInfo> registerCheckInfos) {
+                super.onNext(registerCheckInfos);
+                if (registerCheckInfos != null) {
+                    // 是否所有的码段都合法
+                    boolean isValid = true;
+                    for (RegisterCheckInfo info : registerCheckInfos) {
+                        if (info.getStatus() == 0) {
+                            Toast.makeText(UIUtils.getContext(), info.getResultMsg(), Toast.LENGTH_LONG).show();
+                            isValid = false;
+                            return;
+                        }
+                    }
+                    if ( type == CHECK && isValid) {
+                        Toast.makeText(UIUtils.getContext(), "该号段组合法,可以提交", Toast.LENGTH_LONG).show();
+                    }else if (type == REGISTER && isValid){
+                        doRegister(requestBody);
+                    }
+                }
+            }
+
+            @Override
+            public void onError(ApiException e) {
+                super.onError(e);
+                String message;
+                if (e.getCode() == 401) {
+                    message = "权限拒绝，请联系管理员";
+                } else if (e.getCode() == 1009) {
+                    message = "网络异常";
+                } else {
+                    message = e.getCode() + ":" + e.getMessage();
+                }
+                UIUtils.showToast(message);
+            }
+        }, authorization, requestBody, ConstantUtil.COMPANY_CODE, ConstantUtil.TERMINALLID);
+    }
+
+    private RequestBody doCheck() {
+        RequestBody requestBody = null;
+        List<PostRegisterCheckInfo> infos = new ArrayList<>();
+        for (int i = 0; i < startCodeList.size(); i++) {
+            PostRegisterCheckInfo info = new PostRegisterCheckInfo();
+            info.setBrandId(mSelectedBrandId);
+            info.setProductId(mSelectedProductId);
+            info.setCodeUrlStart(startCodeList.get(i));
+            info.setCodeUrlEnd(endCodeList.get(i));
+            infos.add(info);
+        }
+        String jsonStr = Utils.toJson(infos, 1);
+        requestBody = RequestBody.create(MediaType.parse("application/json"), jsonStr);
+
+        return requestBody;
+    }
+
+    /**
+     * 提交（号段登记）
+     * @param requestBody
+     */
+    private void doRegister(RequestBody requestBody) {
+        HttpMethods.getInstance().doRegister(new ProgressSubscriber<List<RegisterCheckInfo>>(this, true) {
+            @Override
+            public void onNext(List<RegisterCheckInfo> registerCheckInfos) {
+                super.onNext(registerCheckInfos);
+                //设置日期格式
+                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                // new Date()为获取当前系统时间
+                String commitTime = df.format(new Date());
+                if (registerCheckInfos != null) {
+                    List<RegisterCheckInfo> successList = new ArrayList<>();
+                    List<RegisterCheckInfo> failList = new ArrayList<>();
+                    for (RegisterCheckInfo info : registerCheckInfos) {
+                        if (info.getStatus() == 1) {
+                            successList.add(info);
+                        } else {
+                            failList.add(info);
+                        }
+                    }
+                    showCommitSuccessDialog(commitTime, successList, failList);
+                }
+            }
+
+            @Override
+            public void onError(ApiException e) {
+                super.onError(e);
+                String message;
+                if (e.getCode() == 401) {
+                    message = "权限拒绝，请联系管理员";
+                } else if (e.getCode() == 1009) {
+                    message = "当前网络不佳，请前往网络较好的场所重新发起提交！";
+                } else {
+                    message = e.getCode() + ":" + e.getMessage();
+                }
+                //UIUtils.showToast(message);
+                showCommitFailDialog(message);
+            }
+        }, authorization, requestBody, ConstantUtil.COMPANY_CODE, ConstantUtil.TERMINALLID);
+    }
+
+    /**----------------------------------------- 号段检验 + 登记 -------------------------------- */
 
     private void doSave() {
         SectionNumber sectionNumber = new SectionNumber();
@@ -372,22 +419,7 @@ public class EndQrCodeActivity extends AppCompatActivity implements View.OnClick
         finish();
     }
 
-    private RequestBody doCheck() {
-        RequestBody requestBody = null;
-        List<PostRegisterCheckInfo> infos = new ArrayList<>();
-        for (int i = 0; i < startCodeList.size(); i++) {
-            PostRegisterCheckInfo info = new PostRegisterCheckInfo();
-            info.setBrandId(mSelectedBrandId);
-            info.setProductId(mSelectedProductId);
-            info.setCodeUrlStart(startCodeList.get(i));
-            info.setCodeUrlEnd(endCodeList.get(i));
-            infos.add(info);
-        }
-        String jsonStr = Utils.toJson(infos, 1);
-        requestBody = RequestBody.create(MediaType.parse("application/json"), jsonStr);
 
-        return requestBody;
-    }
 
     private void showCommitSuccessDialog(String commitTime, List<RegisterCheckInfo> successList, final List<RegisterCheckInfo> failList) {
         View view = LayoutInflater.from(EndQrCodeActivity.this).inflate(R.layout.dialog_register_success, null);

@@ -15,6 +15,7 @@ import butterknife.ButterKnife;
 
 /**
  * 绑定跟踪标——耳标Adapter
+ *
  * @author TY
  */
 public class QRCodeAdapter extends RecyclerView.Adapter<QRCodeAdapter.ViewHolder> {
@@ -37,7 +38,7 @@ public class QRCodeAdapter extends RecyclerView.Adapter<QRCodeAdapter.ViewHolder
 
     @Override
     public int getItemCount() {
-        return list.size();
+        return list == null ? 0 : list.size();
     }
 
     //绑定视图管理者
@@ -49,7 +50,7 @@ public class QRCodeAdapter extends RecyclerView.Adapter<QRCodeAdapter.ViewHolder
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View root = LayoutInflater.from(parent.getContext()).inflate(R.layout.qr_code_item,null);
+        View root = LayoutInflater.from(parent.getContext()).inflate(R.layout.qr_code_item, null);
         return new ViewHolder(root);
     }
 

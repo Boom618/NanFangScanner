@@ -27,7 +27,7 @@ public class ApiNameConstant {
     public final static String GET_BRANDS = "data-service/isv/brands";
 
     /**
-     * 登记号段检验
+     * 登记号段检验（检查码段接口）
      */
     public final static String REGISTRATION_CHECK = "code-service/isv/registrationAndActivation/company/{companyCode}/seqNumRegistrationCheck";
 

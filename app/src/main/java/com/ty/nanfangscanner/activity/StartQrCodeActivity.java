@@ -47,8 +47,8 @@ public class StartQrCodeActivity extends BaseActivity implements View.OnClickLis
     TextView tvReset;
     @BindView(R.id.rv_code)
     RecyclerView rvCode;
-    @BindView(R.id.button_cancel)
-    ButtonView ButtonCancel;
+    @BindView(R.id.iv_cancel)
+    ImageView ivCancel;
     @BindView(R.id.iv_next)
     ImageView ivNext;
 
@@ -62,7 +62,12 @@ public class StartQrCodeActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     protected void onBaseCreate(Bundle savedInstanceState) {
-
+        Intent intent = getIntent();
+        mSelectedBrand = intent.getStringExtra("brand");
+        mSelectedProduct = intent.getStringExtra("product");
+        mSelectedBrandId = intent.getIntExtra("brandId", -1);
+        mSelectedProductId = intent.getIntExtra("productId", -1);
+        qrCodeList = new ArrayList<>();
 
     }
 
@@ -74,12 +79,6 @@ public class StartQrCodeActivity extends BaseActivity implements View.OnClickLis
     @Override
     protected void initData() {
 
-        Intent intent = getIntent();
-        mSelectedBrand = intent.getStringExtra("brand");
-        mSelectedProduct = intent.getStringExtra("product");
-        mSelectedBrandId = intent.getIntExtra("brandId", -1);
-        mSelectedProductId = intent.getIntExtra("productId", -1);
-        qrCodeList = new ArrayList<>();
     }
 
     @Override
@@ -88,7 +87,7 @@ public class StartQrCodeActivity extends BaseActivity implements View.OnClickLis
         tvTitle.setText("扫描结束码");
         ivBack.setOnClickListener(this);
         tvReset.setOnClickListener(this);
-        ButtonCancel.setOnClickListener(this);
+        ivCancel.setOnClickListener(this);
         ivNext.setOnClickListener(this);
         tvBrand.setText("品牌：" + mSelectedBrand);
         tvProduct.setText("产品：" + mSelectedProduct);
@@ -169,11 +168,6 @@ public class StartQrCodeActivity extends BaseActivity implements View.OnClickLis
             bundle.putInt("brandId", mSelectedBrandId);
             bundle.putInt("productId", mSelectedProductId);
             bundle.putStringArrayList("endCodeList", qrCodeList);
-//            intent.putExtra("product", mSelectedProduct);
-//            intent.putExtra("brandId", mSelectedBrandId);
-//            intent.putExtra("productId", mSelectedProductId);
-//            intent.putStringArrayListExtra("endCodeList", (ArrayList<String>) qrCodeList);
-//            startActivity(intent);
             gotoActivity(EndQrCodeActivity.class,true,bundle);
         }
     }

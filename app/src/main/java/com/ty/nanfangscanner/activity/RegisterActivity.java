@@ -56,6 +56,7 @@ import okhttp3.MediaType;
 import okhttp3.RequestBody;
 
 /**
+ * 号段组列表
  * @author TY
  */
 public class RegisterActivity extends BaseActivity implements View.OnClickListener {
@@ -108,15 +109,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     @Override
     protected void onBaseCreate(Bundle savedInstanceState) {
         initToolBar(R.string.register_list);
-    }
 
-    @Override
-    protected int setActivityLayout() {
-        return R.layout.activity_register;
-    }
-
-    @Override
-    protected void initData() {
         Intent intent = getIntent();
         mSelectedBrand = intent.getStringExtra("brand");
         mSelectedProduct = intent.getStringExtra("product");
@@ -149,6 +142,18 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                 }
             }
         }
+    }
+
+    @Override
+    protected int setActivityLayout() {
+        return R.layout.activity_register;
+    }
+
+    @Override
+    protected void initData() {
+
+
+
 
         String jsonStr = FileUtils.readFile(ConstantUtil.REGISTER_CACHE);
         if (!TextUtils.isEmpty(jsonStr) && !"[]".equals(jsonStr)) {
