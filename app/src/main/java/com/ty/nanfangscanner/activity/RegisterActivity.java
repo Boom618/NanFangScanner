@@ -155,6 +155,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
 
 
+        // 上次登记数据 没提交 的缓存 txt
         String jsonStr = FileUtils.readFile(ConstantUtil.REGISTER_CACHE);
         if (!TextUtils.isEmpty(jsonStr) && !"[]".equals(jsonStr)) {
             Gson gson = new Gson();
@@ -315,7 +316,11 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             }
             String jsonStr = Utils.toJson(infos, 1);
             RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), jsonStr);
+
+            // 提交 组列表
             doRegister(requestBody);
+        }else{
+            UIUtils.showToast("请点击开始去扫描结束码");
         }
     }
 

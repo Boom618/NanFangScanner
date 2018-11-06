@@ -3,6 +3,9 @@ package com.ty.nanfangscanner.bean;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+/**
+ * @author TY
+ */
 public class ProductBrandInfo implements Parcelable {
     private String brandName;
     private String productName;

@@ -44,6 +44,7 @@ import com.zhouyou.http.exception.ApiException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -305,6 +306,7 @@ public class EndQrCodeActivity extends AppCompatActivity implements View.OnClick
                     // 是否所有的码段都合法
                     boolean isValid = true;
                     for (RegisterCheckInfo info : registerCheckInfos) {
+                        // 0 登记失败，1 登记成功
                         if (info.getStatus() == 0) {
                             Toast.makeText(UIUtils.getContext(), info.getResultMsg(), Toast.LENGTH_LONG).show();
                             isValid = false;
@@ -366,8 +368,8 @@ public class EndQrCodeActivity extends AppCompatActivity implements View.OnClick
                 // new Date()为获取当前系统时间
                 String commitTime = df.format(new Date());
                 if (registerCheckInfos != null) {
-                    List<RegisterCheckInfo> successList = new ArrayList<>();
-                    List<RegisterCheckInfo> failList = new ArrayList<>();
+                    List<RegisterCheckInfo> successList = new LinkedList<>();
+                    List<RegisterCheckInfo> failList = new LinkedList<>();
                     for (RegisterCheckInfo info : registerCheckInfos) {
                         if (info.getStatus() == 1) {
                             successList.add(info);

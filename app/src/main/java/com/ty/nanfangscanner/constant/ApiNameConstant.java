@@ -44,6 +44,7 @@ public class ApiNameConstant {
 
     /**
      * 号段检验
+     *
      */
     public final static String DO_CHECK = "code-service/isv/registrationAndActivation/company/{companyCode}/seqNumInfo";
 

@@ -26,7 +26,9 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 
 /**
- * Created by Administrator on 2017/6/15.
+ *
+ * @author Administrator
+ * @date 2017/6/15
  */
 
 public class FileUtils {
